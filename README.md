@@ -1,12 +1,15 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+This repository is for the Django server code for the audio server project used for mental health wellness that is known as "Wellness Server"
 
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Curent students working on this code are:
+* 
+* Fall 2022
+* Michael Cantow
+* Sami Amer 
+* Sonia Uwase
 
 ### How do I get set up? ###
 
