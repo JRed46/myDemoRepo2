@@ -115,8 +115,15 @@ Also note that your browser may cache static files, and you will need to either 
 cache when changing static files.
 - A new folder called mediafiles will automatically be created in this mode in addition to the sqlite database. It will be ignored by git.
 
-### (2) Prodcution Docker <a name="docker_production"></a>
-Clone the repo and navigate inside of it. Run the docker daemon. This is done most easily by downloading docker desktop and opening the application https://www.docker.com/products/docker-desktop/. 
+### (2) Production Docker <a name="docker_production"></a>
+Clone the repo and navigate inside of it. Run the docker daemon. This is done most easily by downloading docker desktop and opening the application https://www.docker.com/products/docker-desktop/. For alternatives, see https://docs.docker.com/get-docker/
+Before you run `docker-compose`, you may need to change the ownership of `entrypoint.sh`.
+#### MacOS and Linux (Unix)
+For both MacOS and Linux, run `chmod +x entrypoint.sh`
+### Windows
+If using Windows Subsystem for Linux (WSL), run the same command as the Linux section. Otherwise, run command line as administrator and execute `icacls entrypoint.sh /reset`, which resets the file permissions. (CURRENTLY UN-TESTED)
+
+#### Running Docker
 ```console
 docker-compose build
 ```
@@ -136,8 +143,17 @@ docker-compose exec web python manage.py migrate --noinput
 ```
 In general, we can user "docker-compose exec web python manage.py {command}" to run commands in the containers, where "web" is the name of the wsgi server we specified in docker-compose.yml
 
+### Troubleshooting Guide
+When setting up the docker server for the first time, there are some common issues that can happen
+
 ### Production TODO
-We may want to specify a third mode of running the project which is similar to (2) but has some different settings for production. Mainly, we need to turn off debug=true, set up https in nginx docker-compose and ssl certificates, run docker as a non root user (which should also be on the local build), change the secret_key environment variable, change database password variable. Multistaging the build to reduce final size would also be interesting.
+- We may want to specify a third mode of running the project which is similar to (2) but has some different settings for production.
+    - Turn off debug=true
+    - Set up https in nginx docker-compose and ssl certificates
+    - Run docker as a non-root user (which should also be on the local build)
+    - Change the secret_key environment variable
+    - Change databse password variable
+- Multistaging build to reduce final size would also be interesting
 
 Production docker intructions TODO. 
 
