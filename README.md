@@ -117,7 +117,7 @@ cache when changing static files.
 
 ### (2) Production Docker <a name="docker_production"></a>
 Clone the repo and navigate inside of it. Run the docker daemon. This is done most easily by downloading docker desktop and opening the application https://www.docker.com/products/docker-desktop/. For alternatives, see https://docs.docker.com/get-docker/
-Before you run `docker-compose`, you may need to change the ownership of `entrypoint.sh`.
+Before you run `docker-compose`, you may need to change the permissions of `entrypoint.sh`. **make sure you rebuild the docker file with `docker compose build` after you run `chmod`**
 #### MacOS and Linux (Unix)
 For both MacOS and Linux, run `chmod +x entrypoint.sh`
 ### Windows
