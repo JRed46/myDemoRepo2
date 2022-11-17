@@ -1,11 +1,23 @@
 from django.shortcuts import HttpResponseRedirect, render
-from .forms import audio_object_form
+from .forms import audio_object_form, register_form
 from .models import audio_object
 
 
 def index_render(request):
     return render(request, "index.html", {"activeTab":"index"})
 
+def login(response):
+    return render(response, "index.html", {})
+
+def create_account(response):
+    if response.method == "POST":
+        form = register_form(response.POST)
+        if form.is_valid():
+            form.save()
+        return HttpResponseRedirect("/")
+    else:
+        form = register_form()
+    return render(response, "registration/register.html", {"form": form})
 
 def files_list(request):
     all_audio_objects = audio_object.objects.all()

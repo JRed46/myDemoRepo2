@@ -1,6 +1,6 @@
 from operator import index
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -8,6 +8,8 @@ from audio_app.views import *
 
 urlpatterns = [
     path("", index_render, name="index"),
+    path('', include("django.contrib.auth.urls")),
+    path("register/", create_account, name="register"),
     path("files/", files_list, name="files"),
     path("upload/", file_upload, name="upload"),
     path("delete_file/<int:file_id>", file_delete, name="delete"),

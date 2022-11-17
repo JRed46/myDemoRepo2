@@ -1,51 +1,46 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  
-<link rel="stylesheet" type='text/css' href="{% static 'css/main.css' %}">
-<link rel="icon" type="image/png" href="{% static 'img/mit.png' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+  <link rel="icon" type="image/png" href="{% static 'img/mit.png' %}" />
 
-<title>
-    {% block title %}
-        Untitled
-    {% endblock title %}
-</title>
+  <title>{% block title %} Untitled {% endblock title %}</title>
 
-<head>
-  <meta charset="utf-8">
-  <div id="topnav" class="topnav">
-    <a class="indexLink" href="{% url 'index' %}"><h1>Wellness App</h1></a>
-    <div class="tabsContainer">
-      {% if activeTab == 'index' %}
+  <head>
+    <meta charset="utf-8" />
+    <div id="topnav" class="topnav">
+      <a class="indexLink" href="{% url 'index' %}"><h1>Wellness App</h1></a>
+      <div class="tabsContainer">
+        {% if activeTab == 'index' %}
         <div class="link"><a href="{% url 'files' %}">Files</a></div>
         <div class="link"><a href="{% url 'upload' %}">Upload</a></div>
-      {% elif activeTab == 'files' %}
+        {% elif activeTab == 'files' %}
         <div class="link active"><a href="{% url 'files' %}">Files</a></div>
         <div class="link"><a href="{% url 'upload' %}">Upload</a></div>
-      {% elif activeTab == 'upload' %}
+        {% elif activeTab == 'upload' %}
         <div class="link"><a href="{% url 'files' %}">Files</a></div>
         <div class="link active"><a href="{% url 'upload' %}">Upload</a></div>
+        {% endif %}
+      </div>
+      {% if user.is_authenticated %}
+      <a class="authentication">[Username]</a>
+      {% else %}
+      <a class="authentication" href="/login">Log In</a>
       {% endif %}
     </div>
-    {% if user.is_authenticated %}
-      <a class="authentication">[Username]</a>
-    {% else %}
-      <a class="authentication">Log In</a>
-    {% endif %}
-  </div> 
 
-  <div style="width: 100%; display:flex; height:50px"></div>
-</head>
+    <div style="width: 100%; display: flex; height: 50px"></div>
+  </head>
 
-<body>
-  <div id="wrapper">
-    <section id="main">
-      {% block content %}
+  <body>
+    <div id="wrapper">
+      <section id="main">
+        {% block content %}
         <h1>Welcome!</h1>
         <p>This is the audio_server base template</p>
-      {% endblock content %}
-    </section>
-  </div>
-  <div style="display:flex; width:100%; height:300px"></div>
-</body>
+        {% endblock content %}
+      </section>
+    </div>
+    <div style="display: flex; width: 100%; height: 300px"></div>
+  </body>
 </html>
