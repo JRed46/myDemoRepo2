@@ -1,14 +1,20 @@
 {% extends "base.html" %} {% block title %} Upload a File {% endblock title %}
+{% load static %}
+
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}" />
 <center>
-  <h1>Upload a File</h1>
-  <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <label>Title</label>
-    <input type="text" name="title" />
-    <label>File</label>
-    <input type="file" name="file" />
-    <input type="submit" value="Upload" />
-  </form>
+  <div class="container">
+    <h1>Upload a File</h1>
+    <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label>Title</label>
+      <input type="text" name="title" />
+      <label>File</label>
+      <input type="file" name="file" />
+      <button type="submit" class="btn btn-success">Upload</button>
+    </form>
+  </div>
+
 </center>
 {% endblock content%}
