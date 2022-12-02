@@ -13,6 +13,7 @@ class audio_object_form(forms.ModelForm):
 
 ## override UsercreationForm with register_form
 class register_form(UserCreationForm):  
+    username = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'placeholder': 'Username', 'class': 'form-input'}))
     firstname = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'placeholder': 'First name', 'class': 'form-input'}))
     lastname = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'placeholder': 'Last name', 'class': 'form-input'}))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-input'}))
@@ -20,7 +21,7 @@ class register_form(UserCreationForm):
     
     class Meta:  
         model =  User
-        fields = ['firstname', 'lastname', 'email', 'password1', 'password2']  
+        fields = ['username', 'firstname', 'lastname', 'email', 'password1', 'password2']  
 
         widgets = {
             'email': forms.EmailInput(attrs={'placeholder': 'Email address', 'class': 'form-input'}),
