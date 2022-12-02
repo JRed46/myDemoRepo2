@@ -1,4 +1,5 @@
 from django.shortcuts import HttpResponseRedirect, render
+from django.contrib.auth import login, authenticate
 from .forms import audio_object_form, register_form
 from .models import audio_object
 
@@ -6,18 +7,23 @@ from .models import audio_object
 def index_render(request):
     return render(request, "index.html", {"activeTab":"index"})
 
-def login(response):
-    return render(response, "index.html", {})
+# def login(request):
+#     return render(request, "index.html", {})
 
-def create_account(response):
-    if response.method == "POST":
-        form = register_form(response.POST)
+def create_account(request):
+    if request.method == "POST":
+        form = register_form(request.POST)
         if form.is_valid():
             form.save()
-        return HttpResponseRedirect("/")
+            username = request.POST['username']
+            password = request.POST['password1']
+            #authenticate user then login
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return HttpResponseRedirect("/")
     else:
         form = register_form()
-    return render(response, "registration/register.html", {"form": form})
+    return render(request, "registration/register.html", {"form": form})
 
 def files_list(request):
     all_audio_objects = audio_object.objects.all()

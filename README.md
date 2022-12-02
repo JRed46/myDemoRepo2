@@ -178,7 +178,27 @@ The development server only runs a lightweight wsgi server. This runs our view f
 <img src="audio_server/static/img/devServerDiagram.png" alt="devServerDiagram" width="600"/>
 
 ## Contribution Guidlines <a name="guidelines"></a>
-TODO: Branches, test cases
+### Branches
+- Please work on a branch and get pull requests reviewed by a peer before merging
+### Test Cases
+- Run unit tests in the Development Server virtual environment. 
+    - Windows:
+        ```console
+        wellness_venv\scripts\activate
+        ```
+        ```console
+        python manage.py test
+        ```
+    - Mac:
+        ```console
+        source wellness_venv/bin/activate
+        ```
+        ```console
+        python3 manage.py test
+        ```
+- TODO: organize tests
+- For now just make these pass when you change the code base and write new ones for new functionalities
+        
 
 ## Contributors <a name="contributors"></a>
 Fall 2022
