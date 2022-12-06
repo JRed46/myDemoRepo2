@@ -18,6 +18,9 @@ Register
       <form method="post" class="form-group">
         {% csrf_token %}
         <div class="form-field">
+          {{form.username}}
+        </div>
+        <div class="form-field">
           {{form.firstname}}
         </div>
         <div class="form-field">
@@ -38,9 +41,34 @@ Register
         Already Have An account? <a href="/login">Log In</a>
       </p>
     </div>
+    {% if form.errors %}
+    <ul>
+      {% for key,value in form.errors.items %}
+      <li>{{ value }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    </div>
 
   </section>
 </body>
 
+<style>
+  ul {
+    width: fit-content;
+    padding: 10px 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    margin: 10px auto;
+    font-size: 20px;
+    color: white;
+    background-color: red;
+  }
 
+  li {
+    margin: 5px 0;
+  }
+</style>
 {% endblock content %}

@@ -115,8 +115,15 @@ Also note that your browser may cache static files, and you will need to either 
 cache when changing static files.
 - A new folder called mediafiles will automatically be created in this mode in addition to the sqlite database. It will be ignored by git.
 
-### (2) Prodcution Docker <a name="docker_production"></a>
-Clone the repo and navigate inside of it. Run the docker daemon. This is done most easily by downloading docker desktop and opening the application https://www.docker.com/products/docker-desktop/. 
+### (2) Production Docker <a name="docker_production"></a>
+Clone the repo and navigate inside of it. Run the docker daemon. This is done most easily by downloading docker desktop and opening the application https://www.docker.com/products/docker-desktop/. For alternatives, see https://docs.docker.com/get-docker/
+Before you run `docker-compose`, you may need to change the permissions of `entrypoint.sh`. **make sure you rebuild the docker file with `docker compose build` after you run `chmod`**
+#### MacOS and Linux (Unix)
+For both MacOS and Linux, run `chmod +x entrypoint.sh`
+### Windows
+If using Windows Subsystem for Linux (WSL), run the same command as the Linux section. Otherwise, run command line as administrator and execute `icacls entrypoint.sh /reset`, which resets the file permissions. (CURRENTLY UN-TESTED)
+
+#### Running Docker
 ```console
 docker-compose build
 ```
@@ -136,8 +143,21 @@ docker-compose exec web python manage.py migrate --noinput
 ```
 In general, we can user "docker-compose exec web python manage.py {command}" to run commands in the containers, where "web" is the name of the wsgi server we specified in docker-compose.yml
 
+### Troubleshooting Guide
+When setting up the docker server for the first time, there are some common issues that can happen; this readme will be updated with solutions to these problems as we encounter them
+
+1. The python executable (`docker-compose`) is technically deprecated, but it works for the purposes of this server. If it is out of date, you can update it easily using `pip`. For better alternatives, see point 2
+2. The newer method of using `compose` is through docker itself, but this requires the installation of a new plugin (**unless you have Docker Desktop, which is supposed to ship with the `docker compose` command ready to go**). Instead of using `pip`, this plug-in adds `docker compose` as a valid command. To install it, use `sudo apt-get- install docker-compose-plugin` on Ubuntu, and the equivalent command on other Linux distros. For MacOS, this plug-in can be installed with [homebrew](https://brew.sh/), with the command `brew install docker-compose`. Note that there might be another step required for MacOS, as detailed [here](https://github.com/docker/compose/issues/8630#issuecomment-1169537632) There is no `docker-compose-plugin` on Windows.See [here](https://github.com/docker/compose/issues/8630#issuecomment-1141930536) for the github issue relating to this.
+3. Another issue that is easy to run into is nginx (or possibly another component) saying the port is blocked. While you can run `docker-compose up -p PORT_NUMBER` to run on a different port, it is advisable to figure out what is blocking the original port, since that may cause problems in the future. If you are running Ubuntu, the most [common](https://stackoverflow.com/questions/14972792/nginx-nginx-emerg-bind-to-80-failed-98-address-already-in-use) problem is Apache listening on that port by default. If you are not using or don't need apache to be running on that port, you can kill the process with `sudo /etc/init.d/apache2 stop` on Ubuntu and `sudo apachectl stop` on other Linux Distros. Please be careful with sudo commands, and always run them at your own peril (the command itself is innocuous, but it is always important to keep that advice in mind). If that does not work, you may need to look up "how to see what is binding port 80 on Windows/Mac/Linux", find the process, and kill it (if it is not important). Sadly, the number of methods to this are too many to enumerate, but it should be a straightforward process.
+
 ### Production TODO
-We may want to specify a third mode of running the project which is similar to (2) but has some different settings for production. Mainly, we need to turn off debug=true, set up https in nginx docker-compose and ssl certificates, run docker as a non root user (which should also be on the local build), change the secret_key environment variable, change database password variable. Multistaging the build to reduce final size would also be interesting.
+- We may want to specify a third mode of running the project which is similar to (2) but has some different settings for production.
+    - Turn off debug=true
+    - Set up https in nginx docker-compose and ssl certificates
+    - Run docker as a non-root user (which should also be on the local build)
+    - Change the secret_key environment variable
+    - Change databse password variable
+- Multistaging build to reduce final size would also be interesting
 
 Production docker intructions TODO. 
 
@@ -158,7 +178,27 @@ The development server only runs a lightweight wsgi server. This runs our view f
 <img src="audio_server/static/img/devServerDiagram.png" alt="devServerDiagram" width="600"/>
 
 ## Contribution Guidlines <a name="guidelines"></a>
-TODO: Branches, test cases
+### Branches
+- Please work on a branch and get pull requests reviewed by a peer before merging
+### Test Cases
+- Run unit tests in the Development Server virtual environment. 
+    - Windows:
+        ```console
+        wellness_venv\scripts\activate
+        ```
+        ```console
+        python manage.py test
+        ```
+    - Mac:
+        ```console
+        source wellness_venv/bin/activate
+        ```
+        ```console
+        python3 manage.py test
+        ```
+- TODO: organize tests
+- For now just make these pass when you change the code base and write new ones for new functionalities
+        
 
 ## Contributors <a name="contributors"></a>
 Fall 2022
