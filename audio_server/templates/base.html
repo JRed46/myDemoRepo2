@@ -61,8 +61,8 @@
             <li><a class="link" href="{% url 'files' %}">Files</a></li>
             <li><a class="link" href="{% url 'upload' %}">Upload</a></li>
             {% if user.is_authenticated %}
-            <li> <a class="authentication"><i class="fa-solid fa-circle-user"></i>[Username]</a></li>
-            <li> <a class="authentication"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
+            <li> <a class="authentication"><i class="fa-solid fa-circle-user"></i>{{request.user.username}}</a></li>
+            <li> <a class="authentication" href="/logout"><i class="fa-solid fa-right-from-bracket"></i></a></li>
             {% else %}
 
             <li><a class="authentication" href="/login">Log In</a></li>
@@ -73,7 +73,7 @@
             <li><a class="link" href="{% url 'files' %}">Files</a></li>
             <li><a class="link" href="{% url 'upload' %}">Upload</a></li>
             {% if user.is_authenticated %}
-            <li> <a class="authentication">[Username]</a></li>
+            <li> <a class="authentication">{{request.user.username}}</a></li>
             {% else %}
             <li><a class="authentication" href="/login">Log In</a></li>
             {% endif %}
@@ -83,7 +83,7 @@
             <li><a class="link" href="{% url 'files' %}">Files</a></li>
             <li><a class="link" href="{% url 'upload' %}">Upload</a></li>
             {% if user.is_authenticated %}
-            <li> <a class="authentication">[Username]</a></li>
+            <li> <a class="authentication">{{request.user.username}}</a></li>
             {% else %}
             <li><a class="authentication" href="/login">Log In</a></li>
             {% endif %}

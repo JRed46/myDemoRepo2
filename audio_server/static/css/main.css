@@ -1,8 +1,6 @@
 /* General Updated */
 @import url("https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
 body {
-  background: url(../img/background-tree.jpeg) center;
-  background-size: cover;
   padding: 0;
   margin: 0;
   height: 100vh;
@@ -98,6 +96,7 @@ nav ul li {
   list-style: none;
   font-size: 22px;
   padding: 0 15px;
+  color: #fff;
 }
 
 nav ul li:hover {
@@ -122,10 +121,17 @@ li a:visited {
   color: white;
 }
 
+/* Icons */
+
 .fa-bars {
-  padding: 0 20px 0 10px;
+  padding: 0 10px 0 10px;
   font-size: 30px;
   cursor: pointer;
+}
+
+.fa-circle-user {
+  padding: 0 5px 0 10px;
+  color: white;
 }
 
 /* Form */
