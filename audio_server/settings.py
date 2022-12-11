@@ -107,6 +107,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CSRF_TRUSTED_ORIGINS=os.environ.get("CSRF_TRUSTED_ORIGINS", default="localhost 127.0.0.1 [::1]").split(" ")
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
