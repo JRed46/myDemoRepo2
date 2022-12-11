@@ -23,9 +23,9 @@
         {% endif %}
       </div>
       {% if user.is_authenticated %}
-      <a class="authentication">[Username]</a>
+        <a class="authentication">{{user.username}}</a>
       {% else %}
-      <a class="authentication" href="/login">Log In</a>
+        <a class="authentication" href="/login">Log In</a>
       {% endif %}
     </div>
 
