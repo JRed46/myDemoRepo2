@@ -35,6 +35,8 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 COPY --from=base /usr/lib/libpq.so.5  /usr/lib/
 
+# bug fix, need to redefine environment variables in second stage
+ENV APP_HOME=/home/app/web
 WORKDIR $APP_HOME
 
 # copy entrypoint.sh
