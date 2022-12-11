@@ -1,0 +1,74 @@
+body {
+  margin-top: 50px;
+  box-sizing: border-box;
+}
+
+.song_container {
+  margin: 10px;
+  /* background-color: aquamarine; */
+  padding: 20px;
+}
+.song_container h1 {
+  position: fixed;
+  width: 100%;
+  padding: 5px;
+  background-color: #fff;
+}
+.file_listcontainer {
+  margin-top: 70px;
+}
+
+/* File List */
+.fileListItem {
+  display: flex;
+  margin: 15px auto;
+  width: fit-content;
+  flex-direction: column;
+}
+
+.media {
+  display: flex;
+  margin-top: 15px;
+}
+
+.ibox-size {
+  width: 54px;
+  height: 54px;
+}
+
+.fileContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px;
+  justify-content: space-between;
+}
+
+.fileListItem h2 {
+  display: flex;
+  width: fit-content;
+  margin: auto;
+}
+
+audio {
+  width: 500px;
+}
+audio::-webkit-media-controls-panel {
+  background-color: white;
+}
+audio::-webkit-media-controls {
+  background-color: white;
+}
+.fileContainer a {
+  color: black;
+  font-size: inherit;
+}
+
+.fileContainer a:hover {
+  color: red;
+}
+
+::file-selector-button {
+  /*Removes button for file input*/
+  display: none;
+}

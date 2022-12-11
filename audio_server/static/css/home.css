@@ -1,0 +1,134 @@
+.categories {
+  position: absolute;
+  top: 20%;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.card-container {
+  padding: 20px;
+  display: grid;
+  column-gap: 15px;
+  grid-template-columns: repeat(auto-fit, max(25rem));
+  justify-content: center;
+}
+
+/* nature color */
+
+.border-nature {
+  border-color: #008aa4;
+  color: #fff;
+}
+
+.border-nature .card-header {
+  background-color: #008aa4;
+}
+.text-nature {
+  color: #008aa4;
+}
+
+.btn-nature {
+  background-color: #008aa4;
+  border-color: #008aa4;
+}
+
+.btn-nature:hover,
+.btn-nature:active,
+.btn-nature:visited {
+  background-color: #046073;
+  border-color: #046073;
+  box-shadow: #046073;
+}
+
+/* meditation color */
+.border-meditation {
+  border-color: #fc8b2a;
+}
+
+.border-meditation .card-header {
+  background-color: #fc8b2a;
+  color: #fff;
+}
+
+.text-meditation {
+  color: #fc8b2a;
+}
+.btn-meditation {
+  background-color: #fc8b2a;
+  border-color: #fc8b2a;
+}
+
+.btn-meditation:hover {
+  background-color: #d1701b;
+  border-color: #d1701b;
+}
+
+/* Guided meditiation */
+.border-guidedmeditation {
+  border-color: #bc7d85;
+}
+
+.border-guidedmeditation .card-header {
+  background-color: #bc7d85;
+  color: #fff;
+}
+
+.text-guidedmeditation {
+  color: #bc7d85;
+}
+.btn-guidedmeditation {
+  background-color: #bc7d85;
+  border-color: #bc7d85;
+}
+
+.btn-guidedmeditation:hover {
+  background-color: #a6666f;
+  border-color: #a6666f;
+}
+
+/* Breathing exercises */
+
+.border-breathing {
+  border-color: #63719c;
+}
+
+.border-breathing .card-header {
+  background-color: #63719c;
+  color: #fff;
+}
+.text-breathing {
+  color: #63719c;
+}
+.btn-breathing {
+  background-color: #63719c;
+  border-color: #63719c;
+}
+.btn-breathing:hover {
+  background-color: #48557d;
+  border-color: #48557d;
+}
+
+/* stories */
+
+.border-stories {
+  border-color: #8b3d78;
+}
+
+.border-stories .card-header {
+  background-color: #8b3d78;
+  color: #fff;
+}
+
+.text-stories {
+  color: #8b3d78;
+}
+
+.btn-stories {
+  background-color: #8b3d78;
+  border-color: #8b3d78;
+}
+
+.btn-stories:hover {
+  background-color: #5e2750;
+  border-color: #5e2750;
+}
