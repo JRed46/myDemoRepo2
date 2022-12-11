@@ -10,19 +10,27 @@ services:
     expose:
       - 8000
     env_file:
-      - ./.env.dev
+      - ./.env.prod
 
   nginx:
     build: ./nginx
     volumes:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
-      - /etc/letsencrypt/live/thoughtline.org/privkey.pem;:/etc/letsencrypt/live/thoughtline.org/privkey.pem;
-      - /etc/letsencrypt/live/thoughtline.org/fullchain.pem:/etc/letsencrypt/live/thoughtline.org/fullchain.pem
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
     ports:
       - 80:80
+      - 443:443
     depends_on:
       - web
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
 
   db:
     image: postgres:13.0-alpine
@@ -30,7 +38,7 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=db_user
-      - POSTGRES_PASSWORD=db_password_changeme
+      - POSTGRES_PASSWORD=diojfiojofj9384yfoudsnco2hfha
       - POSTGRES_DB=postgres_db
 
 volumes:
