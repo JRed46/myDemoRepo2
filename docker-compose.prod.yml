@@ -10,17 +10,16 @@ services:
     expose:
       - 8000
     env_file:
-      - ./.env.dev
+      - ./.env.prod
 
   nginx:
     build: ./nginx
     volumes:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
-      - /etc/ssl/thoughtline.org.key:/etc/ssl/thoughtline.org.key
-      - /etc/ssl/thoughtline.org.crt:/etc/ssl/thoughtline.org.crt
     ports:
       - 80:80
+      - 443:443
     depends_on:
       - web
 
@@ -30,7 +29,7 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=db_user
-      - POSTGRES_PASSWORD=db_password_changeme
+      - POSTGRES_PASSWORD=diojfiojofj9384yfoudsnco2hfha
       - POSTGRES_DB=postgres_db
 
 volumes:
