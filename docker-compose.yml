@@ -17,8 +17,8 @@ services:
     volumes:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
-      - /etc/ssl/thoughtline.org.key:/etc/ssl/thoughtline.org.key
-      - /etc/ssl/thoughtline.org.crt:/etc/ssl/thoughtline.org.crt
+      - /etc/letsencrypt/live/thoughtline.org/privkey.pem;:/etc/letsencrypt/live/thoughtline.org/privkey.pem;
+      - /etc/letsencrypt/live/thoughtline.org/fullchain.pem:/etc/letsencrypt/live/thoughtline.org/fullchain.pem
     ports:
       - 80:80
     depends_on:
