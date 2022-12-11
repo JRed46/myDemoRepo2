@@ -41,11 +41,12 @@ def file_upload(request):
     '''
     TODO: admin authenticate
     '''
+    all_audio_objects = audio_object.objects.all()
     if request.method == "POST":
         form = audio_object_form(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-    return render(request, "upload.html", {"activeTab":"upload"})
+    return render(request, "upload.html", {'all_audio_objects': all_audio_objects, "activeTab":"upload"})
 
 
 def file_delete(request, file_id):

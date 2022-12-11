@@ -173,40 +173,6 @@ form input[type="email"]:focus {
   border: 1px solid rgb(0, 170, 255);
   box-shadow: 0 0 5px rgb(0, 170, 255);
 }
-/* File List */
-.fileListItem {
-  display: flex;
-  margin: 15px auto;
-  width: fit-content;
-  flex-direction: column;
-}
-
-.fileContainer {
-  display: flex;
-  flex-direction: row;
-}
-
-.fileListItem h2 {
-  display: flex;
-  width: fit-content;
-  margin: auto;
-}
-
-.fileListItem a {
-  height: 100%;
-  display: flex;
-  margin: auto 0px auto 5px;
-  color: black;
-}
-
-.fileListItem a:hover {
-  color: red;
-}
-
-::file-selector-button {
-  /*Removes button for file input*/
-  display: none;
-}
 
 ::placeholder {
   color: rgba(0, 0, 0, 0.488);
