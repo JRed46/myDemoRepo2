@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
-<link rel="icon" type="image/png" href="{% static 'img/mit.png' %}" />
+<link rel="icon" type="image/png" href="{% static 'img/icon.png' %}" />
 
 <title>{% block title %} Untitled {% endblock title %}</title>
 
@@ -53,7 +53,7 @@
               <li><a class="dropdown-item" href="/sponsors">SPONSORS</a></li>
             </ul>
           </div>
-          <h1 class="webname"> <a href="/">Wellness App</a></h1>
+          <a class="logoAndTitleContainer" href="/"><img src="{% static 'img/logoWhite.png' %}"><h1 class="webname">Thoughtline</h1></a>
         </div>
         <nav>
           {% if activeTab == 'index'%}

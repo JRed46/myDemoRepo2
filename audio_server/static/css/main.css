@@ -13,12 +13,13 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #191c24;
+  background: #124568;
 }
 
 ::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-thumb:hover {
   background: grey;
+  border-radius: 5px;
 }
 
 h1 {
@@ -89,7 +90,7 @@ nav ul {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  margin: auto 0 auto 0;
 }
 
 nav ul li {
@@ -119,6 +120,32 @@ li a:visited {
   text-decoration: none;
   font-weight: 500;
   color: white;
+}
+
+.topnav .logoAndTitleContainer{
+  display: flex;
+  flex-direction: row;
+}
+.topnav .logoAndTitleContainer h1{
+  display: flex;
+  float: left;
+  color: white;
+  margin: auto 0 auto 0;
+}
+
+.topnav .logoAndTitleContainer img{
+  display: flex;
+  float: left;
+  height:40px;
+  margin: auto 10px auto 0;
+}
+
+.topnav .logoAndTitleContainer:hover img{
+  filter:drop-shadow(1px 1px 1px lightgray)
+}
+
+.topnav .logoAndTitleContainer:hover h1{
+  text-shadow: 1px 1px 1px lightgray;
 }
 
 /* Icons */
