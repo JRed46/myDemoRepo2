@@ -22,28 +22,28 @@ This repository is version 3 of the mental wellness server application. Its prim
 
 ## Repo Overview <a name="overview"></a>
 ### audio_server <a name="audio_server"></a>
-This is the standard django configuration folder for the project. It contains various settings, static files, and urls. The static subfolder contains a css, js, and img folder. To add a script to the project, create {yourscript}.js and add it to the js subfolder. This file can be added to a template with src="{% static 'js/{yourscript}.js' %}". CSS and images can be added similarly. There is no need to specify a new url for a new static file. The templates subfolder contains html templates for the project. Currently, this folder contains only base.html. When making a new page for the project, it should extend from this template, to keep things like the topnav consistent across pages. Urls.py specifies the url routing for each of the view functions in the project. Unlike new static files, make sure to update this file when creating new views.
+This is the standard django configuration folder for the project. It contains various settings, static files, and urls. The static subfolder contains a css, js, and img folder. To add a script to the project, create `{yourscript}.js` and add it to the js subfolder. This file can be added to a template with `src="{% static 'js/{yourscript}.js' %}"`. CSS and images can be added similarly. There is no need to specify a new url for a new static file. The templates subfolder contains html templates for the project. Currently, this folder contains only `base.html`. When making a new page for the project, it should extend from this template, to keep things like the topnav consistent across pages. `urls.py` specifies the url routing for each of the view functions in the project. Unlike new static files, make sure to update this file when creating new views.
 
 ### nginx <a name="nginx"></a>
-This contains the configuration settings for the production nginx build. The nginx.conf file specifies how nginx should handle requests. Most requests are passed along to the django wsgi server (listening on port 8000, specified in docker-compose.yml), which will then map the url of the request to a view function based on our url.py file. The special cases are requests made to the /static/ and /media/ urls, which are served directly by nginx to reduce load on the django wsgi server. The Dockerfile in this repo simply specifies to use our custom conf file. 
+This contains the configuration settings for the production nginx build. The `nginx.conf` file specifies how nginx should handle requests. Most requests are passed along to the django wsgi server (listening on port 8000, specified in `docker-compose.yml`), which will then map the url of the request to a view function based on our `urls.py` file. The special cases are requests made to the /static/ and /media/ urls, which are served directly by nginx to reduce load on the django wsgi server. The Dockerfile in this repo simply specifies to use our custom conf file. 
 
 ### audio_app <a name="audio_app"></a>
-This is a custom django app with the views, models, and templates for the front end of the web application. Note if this project structure were to be reused for another project, we could replace this app with the project specific app(s) of the other project. The contigency is that the application is only using a wsgi server- additional work would be needed to configure a asgi server if for example the other project uses django channels, but this repo would still be a good starting point. 
+This is a custom django app with the views, models, and templates for the front end of the web application. Note if this project structure were to be reused for another project, we could replace this app with the project specific app(s) of the other project. The contigency is that the application is only using a wsgi server- additional work would be needed to configure an asgi server if, for example, the other project uses django channels; either way this repo would still be a good starting point. 
 
 ### Other <a name="other"></a>
-- .env.dev: specifies environment variables for the development docker build
-- .gitignore: standard gitignore file for django projects
-- docker-compose.yml: intructions for the host machine to use to create the relevent docker containers for the project
-- Dockerfile: set of instructions to initialize the django wsgi server, used by the "web" container in docker-compose.yml
-- entrypoint.sh: script with a couple commands that is run after the containers have started
-- manage.py: standard executable django file enabling project management commands.
-- README.md: project description
-- requirements.txt: project dependecies attained from using pip freeze. Used by docker or by the local development server for front end development. 
+- `.env.dev`: specifies environment variables for the development docker build
+- `.gitignore`: standard gitignore file for django projects
+- `docker-compose.yml`: intructions for the host machine to use to create the relevent docker containers for the project
+- `Dockerfile`: set of instructions to initialize the django wsgi server, used by the "web" container in `docker-compose.yml`
+- `entrypoint.sh`: script with a couple commands that is run after the containers have started
+- `manage.py`: standard executable django file enabling project management commands.
+- `README.md`: project description
+- `requirements.txt`: project dependecies attained from using pip freeze. Used by docker or by the local development server for front end development. 
 
 
 
 ## Getting Started <a name="getting_started"></a>
-This application can run in 3 modes: (1) local front end devlopment (2) dev docker (3) prod docker. (1) runs a lightweight development server which is a django builtin. It creates a sqlite datatbase and serves static/media files all on port 8000. It's useful for developing views and styling where you are constantly changing files and want to view the change in your browser since it initializes quickly. It runs very differently than the production server, so it should only be used for front end development useage. Consider this mode's functionality similar to just opening raw html files in your browser, where the local server will pull in static files and allow you to render templates with a dummy database. (2) runs a full production grade dockerized build of the project with a reverse proxy and postgres database over http that can run locally. (3) Runs the build on https, generating and automatically renewing certificates
+This application can run in 3 modes: (1) local front end devlopment (2) dev docker (3) prod docker. (1) runs a lightweight development server which is a django built-in. It creates a sqlite datatbase and serves static/media files all on port 8000. It's useful for developing views and styling where you are constantly changing files and want to view the change in your browser since it initializes quickly. It runs very differently than the production server, so it should only be used for front end development usage. Consider this mode's functionality similar to just opening raw html files in your browser, where the local server will pull in static files and allow you to render templates with a dummy database. (2) runs a full production grade dockerized build of the project with a reverse proxy and postgres database over http that can run locally. (3) Runs the build on https, generating and automatically renewing certificates
 
 ### (1) Local Front End Development <a name="front_end"></a>
 
@@ -182,7 +182,7 @@ The development server only runs a lightweight wsgi server. This runs our view f
 
 <img src="audio_server/static/img/devServerDiagram.png" alt="devServerDiagram" width="600"/>
 
-## Contribution Guidlines <a name="guidelines"></a>
+## Contribution Guidelines <a name="guidelines"></a>
 ### Branches
 - Please work on a branch and get pull requests reviewed by a peer before merging
 ### Test Cases
@@ -207,6 +207,7 @@ The development server only runs a lightweight wsgi server. This runs our view f
 
 ## Contributors <a name="contributors"></a>
 Fall 2022
+
 - Richard Fletcher, Advisor
 - Michael Cantow, MEng
 - Sami Amer, UROP
