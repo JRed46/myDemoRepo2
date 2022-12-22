@@ -1,14 +1,20 @@
 {% extends "base.html" %}
 
-{% block title %} MIT Thoughtline {% endblock title %}
+{% block title %} Thoughtline.org {% endblock title %}
 
 {% load static %}
 
 {% block content %}
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
-<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}" />
-
+<div style="display: flex; flex-direction: column; height: 100vh;">
+    <h1 class="indexTitle">Welcome to ThoughtLine.org</h1>
+    <p class="descP">Relaxing the MIT Community with Soothing Audio Files</p>
+    <div class="linksContainer delay2">
+        {% include 'home/homeLinks.html' %}
+    </div>
+</div>
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}" /> -->
+<!-- 
 <body>
     <section>
         <div class="categories">
@@ -89,5 +95,5 @@
     </section>
 
 
-</body>
+</body> -->
 {% endblock content %}

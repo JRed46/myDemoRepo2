@@ -5,17 +5,22 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from audio_app.views import *
+from .views import *
 
 urlpatterns = [
     path("", index_render, name="index"), #Instruction  + Disclaimer
-    path('', include("django.contrib.auth.urls")), ## django authentication system
     path("register/", create_account, name="register"),
+    path("login/", log_in, name="login"),
+    path('', include("django.contrib.auth.urls")), ## logout url
     path("files/", files_list, name="files"),
     path("upload/", file_upload, name="upload"),
     path("delete_file/<int:file_id>", file_delete, name="delete"),
     path("admin/", admin.site.urls),
-    path("about/", about, name="about"), # about + background
+    path("about/", about, name="about"),
+    path("background/", background, name="background"),
     path("sponsors/", sponsors, name="sponsors"),
+    path("instructions/", instructions, name="instructions"),
+    path("disclaimer/", disclaimer, name="disclaimer"),
 ]
 
 # Only add this when we in debug mode and do not have nginx to serve these items
