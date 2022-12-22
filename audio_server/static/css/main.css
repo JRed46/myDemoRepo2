@@ -3,7 +3,6 @@
 /* ------------ */ 
 @import url("https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
 
-
 body {
   padding: 0;
   margin: 0;
@@ -254,6 +253,160 @@ form input[type="email"]:focus {
 
 
 
+/*--------------*/
+/* LISTEN PAGES */
+/* ------------ */
+.grid {
+  margin-top: 80px;
+  display: flex;                       /* establish flex container */
+  flex-wrap: wrap;                     /* enable flex items to wrap */
+  justify-content: space-evenly;
+}
+
+.cell {
+  flex: 0 0 30%;
+  height: 200px;
+  margin-bottom: 20px;
+  background-color: rgba(203, 205, 206, 0.9);
+  border-radius: 20px;
+  text-decoration: none !important;
+}
+
+.cell:hover{
+  cursor: pointer;
+}
+
+.cellHead{
+  width: 100%;
+  height:50px;
+  border-top-left-radius: 19px;
+  border-top-right-radius: 19px;
+  color:white;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 45px;
+  font-size: 25px;
+}
+
+.cellText{
+  margin: 10px 10px 0px 10px;
+  font-size: 18px;
+  color:black
+}
+
+.cell.cell1{
+  box-shadow: 0 0 0 3px #008AA4;
+}
+
+.cell.cell1:hover{
+  box-shadow: 0 0 10px 3px #008AA4;
+}
+
+.cell.cell1 .cellHead{
+  background-color: #008AA4;
+}
+
+.cell.cell2{
+  box-shadow: 0 0 0 3px #48557d;
+}
+
+.cell.cell2:hover{
+  box-shadow: 0 0 10px 3px #48557d;
+}
+
+.cell.cell2 .cellHead{
+  background-color: #48557d;
+}
+
+.cell.cell3{
+  box-shadow: 0 0 0 3px #5E2750;
+}
+
+.cell.cell3:hover{
+  box-shadow: 0 0 10px 3px #5E2750;
+}
+
+.cell.cell3 .cellHead{
+  background-color: #5E2750;
+}
+
+.cell.cell4{
+  box-shadow: 0 0 0 3px #008AA4;
+}
+
+.cell.cell4:hover{
+  box-shadow: 0 0 10px 3px #008AA4;
+}
+
+.cell.cell4 .cellHead{
+  background-color: #008AA4;
+}
+
+.cell.cell5{
+  box-shadow: 0 0 0 3px #48557d;
+}
+
+.cell.cell5:hover{
+  box-shadow: 0 0 10px 3px #48557d;
+}
+
+.cell.cell5 .cellHead{
+  background-color: #48557d;
+}
+
+.cell.cell6{
+  box-shadow: 0 0 0 3px #5E2750;
+}
+
+.cell.cell6 .cellHead{
+  background-color: #5E2750;
+}
+
+.cell.cell6:hover{
+  box-shadow: 0 0 10px 3px #5E2750;
+}
+
+.cell.cell7{
+  box-shadow: 0 0 0 3px #008AA4;
+}
+
+.cell.cell7:hover{
+  box-shadow: 0 0 10px 3px #008AA4;
+}
+
+.cell.cell7 .cellHead{
+  background-color: #008AA4;
+}
+
+.cell.cell8{
+  box-shadow: 0 0 0 3px #48557d;
+}
+
+.cell.cell8:hover{
+  box-shadow: 0 0 10px 3px #48557d;
+}
+
+.cell.cell8 .cellHead{
+  background-color: #48557d;
+}
+
+.cell.cell9{
+  box-shadow: 0 0 0 3px #5E2750;
+}
+
+.cell.cell9:hover{
+  box-shadow: 0 0 10px 3px #5E2750;
+}
+
+.cell.cell9 .cellHead{
+  background-color: #5E2750;
+}
+
+/* ----------------------------------------------------- */
+
+
+
+
 /*--------------------*/
 /* REGISTRATION  PAGE */
 /* ------------------ */
@@ -299,7 +452,7 @@ form input[type="email"]:focus {
 .linksContainer{
   position: fixed;
   top:50px;
-  left: 30px;
+  left: 20px;
   width:fit-content;
   display: flex;
   flex-direction: column;
@@ -310,7 +463,7 @@ form input[type="email"]:focus {
   animation: fadeIn 1s;
   opacity: 0;
   animation-fill-mode: forwards;
-  animation-delay: 2s;
+  animation-delay: 1s;
 }
 
 .linksContainer a{
@@ -353,7 +506,7 @@ form input[type="email"]:focus {
   width: 150px;
   height: 73px;
   display: flex;
-  margin: auto auto 150px auto;
+  margin: 100px auto auto auto;
   position:relative;
   background-color:#2F528F;
   border-radius: 20px;
@@ -371,7 +524,7 @@ form input[type="email"]:focus {
   height: auto;
   z-index: -1;
   border-radius: 20px;
-  box-shadow: 0 0 10px 1px black;
+  box-shadow: 0 0 10px 2px black;
 }
 
 .beatIn {
@@ -418,6 +571,9 @@ form input[type="email"]:focus {
   }
 }
 /* ----------------------------------------------------- */
+
+
+
 
 @keyframes fadeIn {
   0% { opacity: 0; }

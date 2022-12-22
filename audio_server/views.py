@@ -17,14 +17,15 @@ def log_in(request):
     Returns:
         HttpResponseRedirect: Either to success page or error populated form
     '''
+    getNext = lambda r : r.GET.get('next') if r.GET.get('next') else '/'        
     if request.user.is_authenticated:
-        return HttpResponseRedirect("/") # Redirect if user is logged in
+        return HttpResponseRedirect(getNext(request)) # Redirect if user is logged in
     form = login_form(data = request.POST or None)
     if request.POST and form.is_valid():
         user = form.login(request)
         if user:
             login(request, user)
-            return HttpResponseRedirect("/") # Redirect to home page
+            return HttpResponseRedirect(getNext(request)) # Redirect to home page
     return render(request, 'registration/login.html', {'form': form, "activeTab":"auth"})
 
 
