@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %} Disclaimer {% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="linksContainer">
+    {% include 'home/homeLinks.html' %}
+</div>
+<center>
+    <div class="container  homeContainer">
+        <h1>Disclaimer</h1>
+        <p>
+            We seek to promote mental health wellness, not to treat diagnosed mental illness. 
+            It is well understood that physical exercise helps prevent physical disease.
+            However, for someone with symptoms of heart disease, the proper course of action is to see a doctor, not self-prescribe jogging. 
+            Similarly, this application is intended for healthy individuals looking to maintain their mental health and prevent a more serious episode. 
+            The application may be useful for diagnosed individuals as a component of prescribed care but should not be used as a substitute for professional evaluation.
+            If you are concerned about your wellbeing, please utilize <a href="https://medical.mit.edu/services/mental-health-counseling">MIT resources </a>
+            or see a private professional.
+        </p>
+
+    </div>
+</center>
+
+{% endblock content %}

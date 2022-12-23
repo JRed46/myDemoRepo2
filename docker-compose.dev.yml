@@ -13,7 +13,9 @@ services:
       - ./.env.dev
 
   nginx:
-    build: ./nginx
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile.dev
     volumes:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles

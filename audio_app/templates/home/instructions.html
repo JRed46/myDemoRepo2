@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %} Instructions {% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="linksContainer">
+    {% include 'home/homeLinks.html' %}
+</div>
+<center>
+    <div class="container  homeContainer">
+        <h1>Instructions</h1>
+        <p>
+            Listening-- To get started, click "Listen" in the nav bar above. From there, you can choose to browse the library by category,
+            listen to one of your playlists, or create a playlist. When browsing the library, an option will pop up to add the file to a playlist. 
+            You can remove files from your playlist by clicking the delete icon next to the file within the playlist view.
+            <br>
+            <br>
+            User Authentication-- Users must create an account and Log In in order to use ThoughtLine.org. If you are a new user,
+            <a href="'register">create a free account</a> and you will be automatically logged in. Returning users can use the
+            "Log In" icon in the top right of the screen. We take user privacy very seriously. Registration is in place so you 
+            can create playlists and so the creaters of the audio files can collect anonymized data to research file improvements.
+            We do not collect any personally identifying information based on your interactions with this appication.
+            <br>
+            <br>
+            Create-- If you would ike to add a file to our library, click "Create" in the topnav and you will be able to 
+            record or upload an mp3/WAV. We will review your submission and subject to approval it will be added to the library.
+            <br>
+            <br>
+            Chatbot-- Our group has built an NLP chat bot that simulates conversation and infers mood. We are working on integrating
+            that with this application and we will use it to recommend files to you.
+
+        </p>
+
+    </div>
+</center>
+
+{% endblock content %}

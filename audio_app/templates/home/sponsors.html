@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %} Sponsors {% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="linksContainer">
+    {% include 'home/homeLinks.html' %}
+</div>
+<center>
+    <div class="container  homeContainer">
+        <h1>Sponsors</h1>
+        <p>
+            The cost of developing and maintaining this web site has been made possible through the support of the
+            <a href="https://urop.mit.edu/"> MIT UROP office</a> and the 
+            <a href="https://mindhandheart.mit.edu/home-page">MIT Mind Hand Heart organization</a>,
+            for which we are very grateful.
+            <br>
+            <br>
+            If you find this web site useful and/or you wish to make a small donation to keep it alive, feel free to
+            contact Dr. Rich Fletcher (fletcher@media.mit.edu).
+        </p>
+
+    </div>
+</center>
+
+{% endblock content %}

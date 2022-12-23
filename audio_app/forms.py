@@ -1,31 +1,37 @@
 from django import forms
-from .models import audio_object, models
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from .models import audio_object, audioCategories, playlist, PlaylistMapping
 
-CATEGORIES = ['Nature', 'Meditation', 'Guided Meditation', 'Breathing Exercises', 'Stories']
 class audio_object_form(forms.ModelForm):  
-    title = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': 'form-input', 'label':'Title', 'name':'title'}))
-    category = forms.CharField(max_length=50, label="Category", widget=forms.Select(choices=CATEGORIES))
+    title = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Title', 'name':'title'}))
+    category = forms.CharField(max_length=50, widget=forms.Select(attrs={'class': 'form-input', 'placeholder': 'Category', 'name':'category'}, choices=audioCategories.choices))
     file = forms.FileInput(attrs={'class':'form-input', 'label':'File', 'name':'file'})
     class Meta:  
         model = audio_object  
         fields = ['title', 'category', 'file'] 
 
-
-## override UsercreationForm with register_form
-class register_form(UserCreationForm):  
-    username = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'placeholder': 'Username', 'class': 'form-input'}))
-    firstname = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'placeholder': 'First name', 'class': 'form-input'}))
-    lastname = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'placeholder': 'Last name', 'class': 'form-input'}))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-input'}))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password', 'class': 'form-input'}))
-    
+class playlist_form(forms.ModelForm):
+    name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Playlist Name', 'name':'name'}))
     class Meta:  
-        model =  User
-        fields = ['username', 'firstname', 'lastname', 'email', 'password1', 'password2']  
+        model = playlist
+        exclude = ["user"]  
+        fields = ['name'] 
 
-        widgets = {
-            'email': forms.EmailInput(attrs={'placeholder': 'Email address', 'class': 'form-input'}),
-        }
+class add_to_playlist_form(forms.ModelForm):
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        self.sourcePlaylist =  forms.ModelChoiceField(queryset=playlist.objects.filter(owner=user)) 
+
+        print(self.sourcePlaylist)
+        # print([(userPlaylist.name, userPlaylist) for userPlaylist in playlist.objects.filter(owner=user)])
+        # print(audioCategories.choices)
+        # self.sourcePlaylist = forms.CharField(max_length=30, widget=forms.Select(attrs={'class': 'form-input', 'placeholder': 'Playlist', 'name':'sourcePlaylist'}, choices=[( userPlaylist.id, userPlaylist.name) for userPlaylist in playlist.objects.filter(owner=user)]))
+        super(add_to_playlist_form, self).__init__(*args, **kwargs)       
+
+    @staticmethod
+    def label_from_instance(obj):
+        return obj.name
+
+    class Meta:
+        model= PlaylistMapping
+        exclude = ["file"]   
+        fields = ['sourcePlaylist'] 

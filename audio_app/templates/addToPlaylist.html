@@ -1,6 +1,6 @@
 {% extends "base.html" %} 
 
-{% block title %} Create {% endblock title %}
+{% block title %} Add To Playlist{% endblock title %}
 
 {% load static %}
 
@@ -9,11 +9,11 @@
 {% block content %}
 <section class='registration'>
   <div class="container formContainer">
-    <h2>Upload a File</h2>
+    <h2>Add to Playlist</h2>
     <form method="post" class="form-group" enctype="multipart/form-data">
       {% csrf_token %}
       {{form|crispy}}
-      <button type="submit" class="btn btn-success">Upload</button>
+      <button type="submit" class="btn btn-success">Add</button>
     </form>
   </div>
 </section>

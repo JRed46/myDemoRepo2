@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %} About {% endblock %}
+
+{% load static %}
+
+{%block content %}
+<div class="linksContainer">
+    {% include 'home/homeLinks.html' %}
+</div>
+<center>
+    <div class="container homeContainer">
+        <h1>About</h1>
+        <p id="nav-1" class="nav-p">
+            This project was conceived by Dr. Rich Fletcher in 2020 as platform to help support mental health and
+            wellness among the MIT Community. The initial concept was to create a platform to share stories that could
+            be uplifting and heartwarming, to give us different perspectives, grow our sense of gratitude, or simply
+            make us smile. The domain name, ThoughtLine, is a reference to a former student-support phone line service,
+            called NightLine, that was operated by MIT in the pre-Google days, that students could call when they wanted
+            to talk to a human or ask a question.
+
+            While there is a huge amount of media channels available today, our modern technology often presents us with
+            a sensory overload that provides us little opportunity, and little space, to think, relax, and reflect.
+            Audio files provide a unique opportunity to close our eyes, and open our minds. Audio can provide a range of
+            experiences, ranging from the basic sounds of nature (e.g. ocean waves, rain) to the sound of a human voice
+            and mental imagery to help clear and heal our mind.
+
+            This web site is one of several mental health-related projects being conducted by Dr. Fletcher and the
+            <a href="http://www.mobiletechnologylab.org/portfolio/">Mobile Technology Lab</a>
+            <br>
+            <br>
+            <br>
+            Developers: Michael Cantow, Sami Amer, and Sonia Uwase.
+        </p>
+    </div>
+</center>
+
+
+{% endblock content %}
