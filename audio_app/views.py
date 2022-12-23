@@ -34,6 +34,9 @@ def get_playlists(request):
     return {'userPlaylists': []}
 
 def is_admin(user):
+    '''
+    make sure to create a group named Admin and add yourself
+    '''
     return user.groups.filter(name='Admin').exists()
 
 
