@@ -142,6 +142,75 @@ a:hover {
 .topnav nav .link.active{
   color: white !important;
 }
+
+.topnav .dropdown {
+  position: relative;
+}
+
+.topnav .dropdownContent {
+    visibility: hidden;
+    display: none;
+    text-align: left;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+    position: absolute;
+    background-color: #2F528F;
+    width: fit-content;
+    min-width: 300px;
+    z-index: 1;
+    transition: 0.15s linear;
+    -webkit-transition: 0.15s linear;
+    -moz-transition: 0.15s linear;
+    -ms-transition: 0.15s linear;
+    -o-transition: 0.15s linear;
+    padding: 10px 0px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 1px black;
+}
+
+.topnav .dropdownContent .dropdownSelection {
+  color: #c5c2c2;
+  padding: 5px 10px 5px 10px;
+  text-decoration: none;
+  display: block;
+  font-family: 'Cairo', sans-serif;
+  font-size: 20px;
+  border-bottom: 1px solid transparent;
+}
+
+.topnav .dropdownContent .dropdownSelection:hover{
+  color: white;
+  border-bottom: 1px solid white;
+}
+
+.topnav .dropdown:hover .dropdownContent{
+    visibility: visible;
+    opacity: 1;
+    display: block;
+    transition: 0.15s linear;
+    -webkit-transition: 0.15s linear;
+    -moz-transition: 0.15s linear;
+    -ms-transition: 0.15s linear;
+    -o-transition: 0.15s linear;
+}
+
+.topnav .dropdown svg{
+  transition: 0.25s linear;
+  -webkit-transition: 0.25s linear;
+  -moz-transition: 0.25s linear;
+  -ms-transition: 0.25s linear;
+  -o-transition: 0.25s linear;
+}
+
+.topnav .dropdown:hover svg{
+    color: white;
+    transform: rotate(180deg);
+    transition: 0.25s linear;
+    -webkit-transition: 0.25s linear;
+    -moz-transition: 0.25s linear;
+    -ms-transition: 0.25s linear;
+    -o-transition: 0.25s linear;
+}
 /* ----------------------------------------------------- */
 
 
@@ -408,6 +477,86 @@ form input[type="email"]:focus {
   background-color: #5E2750;
 }
 
+/* ----------------------------------------------------- */
+
+
+
+
+/* -------- */
+/* PLAYLIST */
+/* -------- */
+.tableCaption{
+  display: flex;
+  margin: 50px auto 0 auto;
+  width: fit-content;
+  color: #7F4B35;
+  text-shadow: 1px 1px 1px black;
+  font-size: 35px;
+}
+
+table{
+  width: fit-content;
+  min-width: 400px;
+  max-width: 95%;
+  display: flex; 
+  background-color: rgba(203, 205, 206, 0.9);
+  padding:20px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px 1px black;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  height: 80vh;
+  overflow-y: scroll;
+  margin: 10px auto auto auto;
+  border: 10px solid rgba(203, 205, 206, 0.9);
+}
+
+table::-webkit-scrollbar {
+  width: 7px;
+}
+
+table::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+table::-webkit-scrollbar-thumb,
+table::-webkit-scrollbar-thumb:hover {
+  background: black;
+  border-radius: 5px;
+}
+
+table td{
+  padding: 10px;
+}
+
+audio{
+  vertical-align: middle;
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: rgba(203, 205, 206, 1);
+}
+
+table svg{
+  vertical-align: middle;
+}
+
+table svg.delete{
+  color:red
+}
+
+svg.delete:hover{
+  filter: drop-shadow(0px 0px 1px red);
+}
+
+table svg.add{
+  color:rgb(12, 184, 12)
+}
+
+svg.add:hover{
+  filter: drop-shadow(0px 0px 1px rgb(12, 184, 12));
+}
 /* ----------------------------------------------------- */
 
 

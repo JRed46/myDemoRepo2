@@ -1,10 +1,21 @@
 from django.shortcuts import HttpResponseRedirect, render
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from .forms import audio_object_form
-from .models import audio_object
+from .forms import audio_object_form, playlist_form, add_to_playlist_form
+from .models import audio_object, audioCategories, playlist, PlaylistMapping
 
 
+def get_playlists(request):
+    '''
+    See the templates variable in settings.
+    Makes the variable userPlaylists available in all templates
+    '''
+    if request.user.is_authenticated:
+        return {'userPlaylists': playlist.objects.filter(owner=request.user)} 
+    return {'userPlaylists': []}
+
+def is_admin(user):
+    return user.groups.filter(name='Admin').exists()
 
 
 ####################
@@ -95,6 +106,17 @@ def instructions_render(request):
     return render(request, "home/instructions.html", {"activeTab":"instructions"})
 
 
+def chatbot_render(request):
+    '''
+    Temp standin for chatbot not yet implemented
+
+    Parameters:
+        request (http): http GET request
+    
+    Returns:
+        HttpResponseRedirect: the rendered chatbot template
+    '''
+    return render(request, "home/chatbot.html", {"activeTab":"chatbot"})
 
 
 ################
@@ -139,31 +161,100 @@ def listen_category(request, category):
                             'mediation-music':'MM', 'short-guided-mediations':'SGM', 
                             'vocal-chanting':'VC'}
 
+    categoryToTitle = {'nature-sounds':'Nature Sounds', 'binural-beats':'Binural Beats', 
+                    'breathing-excercises':'Breathing Excercises', 'stories':'Stories', 
+                    'guided-mediations':'Guided Meditations', 'indian-ragas':'Indian Ragas',
+                    'mediation-music':'Meditation Music', 'short-guided-mediations':'Short Guided Meditations', 
+                    'vocal-chanting':'Vocal Chanting'}
+
     audio_objects = audio_object.objects.filter(category = categoryToAbreviation.get(category))
-    objs = audio_object.objects.all()
-    for o in objs:
-        print(o.category)
-    return render(request, "listen_category.html", {"activeTab":"listen", 'audio_objects':audio_objects})
+    adminUser = is_admin(request.user)
+    kwargs = {"activeTab":"listen", 'audio_objects':audio_objects, 'category_title':categoryToTitle.get(category),
+              'listType':'category', 'adminUser':adminUser}
+    return render(request, "listen_files.html", kwargs)
 
 
+
+@login_required(login_url=reverse_lazy('login'))
+def listenPlaylist(request, playlistId):
+    userPlaylist = playlist.objects.get(id = playlistId)
+    audio_objects = userPlaylist.audios.all()
+    kwargs = {"activeTab":"listen", 'audio_objects':audio_objects, 'category_title':userPlaylist.name,
+              'listType':'playlist', 'playlistId':userPlaylist.id}
+    return render(request, "listen_files.html", kwargs)
+
+
+@login_required(login_url=reverse_lazy('login'))
+def createPlaylist(request):
+    if request.method == "POST":
+        form = playlist_form(request.POST)
+        try:
+            newPlaylist = form.save(commit=False)
+            newPlaylist.owner = request.user
+            newPlaylist.save()
+            return HttpResponseRedirect('/listen/playlist/{}'.format(newPlaylist.id))
+        except:
+            pass
+    return render(request, "createPlaylist.html", {"activeTab":"listen", 'form':playlist_form})
+
+
+@login_required(login_url=reverse_lazy('login'))
+def deletePlaylist(request, playlistId):
+    userPlaylist = playlist.objects.get(id = playlistId)
+    if userPlaylist.owner == request.user:
+        userPlaylist.delete()
+    return HttpResponseRedirect('/')
+
+
+@login_required(login_url=reverse_lazy('login'))
+def addToPlaylist(request, fileId, fileName):
+    if request.method == "POST":
+        form = add_to_playlist_form(request.user, request.POST)
+        try:
+            newPlaylistFile = form.save(commit=False)
+            newPlaylistFile.file = audio_object.objects.get(id=fileId)
+            newPlaylistFile.save()
+            return HttpResponseRedirect('/listen/playlist/{}'.format(newPlaylistFile.sourcePlaylist.id))
+        except:
+            pass
+    else:
+        form = add_to_playlist_form(user=request.user)
+    return render(request, "addToPlaylist.html", {"activeTab":"listen", 'form':form})
+
+
+@login_required(login_url=reverse_lazy('login'))
+def removeFromPlaylist(request, playlistId, fileId):
+    userPlaylist = playlist.objects.get(id = playlistId)
+    if userPlaylist.owner == request.user:
+        file_object = audio_object.objects.get(id=fileId)
+        toDel = PlaylistMapping.objects.filter(sourcePlaylist=userPlaylist, file=file_object)
+        for to in toDel:
+            to.delete()
+    return HttpResponseRedirect('/listen/playlist/{}'.format(userPlaylist.id))
+
+
+
+#ADMIN 
+@login_required(login_url=reverse_lazy('login'))
 def file_upload(request):
     '''
     TODO: admin authenticate
     '''
-    categories = audio_object.CHOICES
     if request.method == "POST":
         form = audio_object_form(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-    return render(request, "upload.html", {'categories': categories, "activeTab":"upload", 'form':audio_object_form})
+    return render(request, "upload.html", {"activeTab":"upload", 'form':audio_object_form})
 
 
+@login_required(login_url=reverse_lazy('login'))
 def file_delete(request, file_id):
     '''
     TODO: admin authenticate, confirm on front end
     '''
-    file_to_delete = audio_object.objects.get(id = file_id)
-    if file_to_delete:
-        file_to_delete.delete()
+    if is_admin(request.user):
+        file_to_delete = audio_object.objects.get(id = file_id)
+        if file_to_delete:
+            file_to_delete.delete()
     return HttpResponseRedirect('/listen/')
     

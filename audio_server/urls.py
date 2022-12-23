@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from audio_app.views import index_render, listen, listen_category, file_delete, file_upload, about_render, background_render, sponsors_render, instructions_render, disclaimer_render
+from audio_app.views import *
 from .views import create_account, log_in
 
 urlpatterns = [
@@ -21,6 +21,12 @@ urlpatterns = [
     path("sponsors/", sponsors_render, name="sponsors"),
     path("instructions/", instructions_render, name="instructions"),
     path("disclaimer/", disclaimer_render, name="disclaimer"),
+    path("chatbot/", chatbot_render, name="chatbot"),
+    path("createPlaylist/", createPlaylist, name="createPlaylist"),
+    path("deletePlaylist/<int:playlistId>", deletePlaylist, name="deletePlaylist"),
+    path("listen/playlist/<int:playlistId>", listenPlaylist, name="listenPlaylist"),
+    path("addToPlaylist/<int:fileId>/<str:fileName>", addToPlaylist, name="addToPlaylist"),
+    path("removeFromPlaylist/<int:playlistId>/<int:fileId>", removeFromPlaylist, name="removeFromPlaylist"),
 ]
 
 # Only add this when we in debug mode and do not have nginx to serve these items
