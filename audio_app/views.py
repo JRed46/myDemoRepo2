@@ -132,21 +132,30 @@ def listen_category(request, category):
     Returns:
         HttpResponseRedirect: the rendered instructions template
     '''
-    return render(request, "listen_category.html", {"activeTab":"listen"})
-    # all_audio_objects = audio_object.objects.all()
-    # return render(request, "files.html", {'all_audio_objects': all_audio_objects, "activeTab":"listen"})
+    audio_objects = []
+    categoryToAbreviation = {'nature-sounds':'NS', 'binural-beats':'BB', 
+                            'breathing-excercises':'BE', 'stories':'S', 
+                            'guided-mediations':'GM', 'indian-ragas':'IR',
+                            'mediation-music':'MM', 'short-guided-mediations':'SGM', 
+                            'vocal-chanting':'VC'}
+
+    audio_objects = audio_object.objects.filter(category = categoryToAbreviation.get(category))
+    objs = audio_object.objects.all()
+    for o in objs:
+        print(o.category)
+    return render(request, "listen_category.html", {"activeTab":"listen", 'audio_objects':audio_objects})
 
 
 def file_upload(request):
     '''
     TODO: admin authenticate
     '''
-    all_audio_objects = audio_object.objects.all()
+    categories = audio_object.CHOICES
     if request.method == "POST":
         form = audio_object_form(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-    return render(request, "upload.html", {'all_audio_objects': all_audio_objects, "activeTab":"upload"})
+    return render(request, "upload.html", {'categories': categories, "activeTab":"upload", 'form':audio_object_form})
 
 
 def file_delete(request, file_id):
@@ -156,5 +165,5 @@ def file_delete(request, file_id):
     file_to_delete = audio_object.objects.get(id = file_id)
     if file_to_delete:
         file_to_delete.delete()
-    return HttpResponseRedirect('/files/')
+    return HttpResponseRedirect('/listen/')
     
