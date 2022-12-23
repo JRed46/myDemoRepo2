@@ -5,6 +5,25 @@ from .forms import audio_object_form, playlist_form, add_to_playlist_form
 from .models import audio_object, audioCategories, playlist, PlaylistMapping
 
 
+categoryToAbreviation = {'nature-sounds':'NS', 'binural-beats':'BB', 
+                        'breathing-excercises':'BE', 'stories':'S', 
+                        'guided-mediations':'GM', 'indian-ragas':'IR',
+                        'mediation-music':'MM', 'short-guided-mediations':'SGM', 
+                        'vocal-chanting':'VC'}
+
+abreviationToCategory = {'NS':'nature-sounds', 'BB':'binural-beats', 
+                        'BE':'breathing-excercises', 'S':'stories', 
+                        'GM':'guided-mediations', 'IR':'indian-ragas',
+                        'MM':'mediation-music', 'SGM':'short-guided-mediations', 
+                        'VC':'vocal-chanting'}
+
+categoryToTitle = {'nature-sounds':'Nature Sounds', 'binural-beats':'Binural Beats', 
+                'breathing-excercises':'Breathing Excercises', 'stories':'Stories', 
+                'guided-mediations':'Guided Meditations', 'indian-ragas':'Indian Ragas',
+                'mediation-music':'Meditation Music', 'short-guided-mediations':'Short Guided Meditations', 
+                'vocal-chanting':'Vocal Chanting'}
+
+
 def get_playlists(request):
     '''
     See the templates variable in settings.
@@ -155,19 +174,7 @@ def listen_category(request, category):
         HttpResponseRedirect: the rendered instructions template
     '''
     audio_objects = []
-    categoryToAbreviation = {'nature-sounds':'NS', 'binural-beats':'BB', 
-                            'breathing-excercises':'BE', 'stories':'S', 
-                            'guided-mediations':'GM', 'indian-ragas':'IR',
-                            'mediation-music':'MM', 'short-guided-mediations':'SGM', 
-                            'vocal-chanting':'VC'}
-
-    categoryToTitle = {'nature-sounds':'Nature Sounds', 'binural-beats':'Binural Beats', 
-                    'breathing-excercises':'Breathing Excercises', 'stories':'Stories', 
-                    'guided-mediations':'Guided Meditations', 'indian-ragas':'Indian Ragas',
-                    'mediation-music':'Meditation Music', 'short-guided-mediations':'Short Guided Meditations', 
-                    'vocal-chanting':'Vocal Chanting'}
-
-    audio_objects = audio_object.objects.filter(category = categoryToAbreviation.get(category))
+    audio_objects = audio_object.objects.filter(category = categoryToAbreviation.get(category), approved=True)
     adminUser = is_admin(request.user)
     kwargs = {"activeTab":"listen", 'audio_objects':audio_objects, 'category_title':categoryToTitle.get(category),
               'listType':'category', 'adminUser':adminUser}
@@ -243,8 +250,16 @@ def file_upload(request):
     if request.method == "POST":
         form = audio_object_form(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-    return render(request, "upload.html", {"activeTab":"upload", 'form':audio_object_form})
+            if is_admin(request.user):
+                file = form.save(commit=False)
+                file.approved = True
+                file.save()
+            else:
+                form.save()
+            return HttpResponseRedirect('/upload/')
+    else:
+        form = audio_object_form()
+    return render(request, "upload.html", {"activeTab":"upload", 'form':form})
 
 
 @login_required(login_url=reverse_lazy('login'))

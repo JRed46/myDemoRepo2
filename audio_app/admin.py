@@ -6,7 +6,7 @@ class audioObjectsAdmin(admin.ModelAdmin):
     '''
     Show all files
     '''
-    list_display = ( 'title', 'category', 'file')
+    list_display = ( 'title', 'category', 'file', 'approved')
 
 # Register your models here.
 class playlistAdmin(admin.ModelAdmin):
