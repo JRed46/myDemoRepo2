@@ -7,7 +7,7 @@ class audioCategories(models.TextChoices):
     GUIDED_MEDITATIONS = 'GM'
     BREATHING_EXERCISES = 'BE'
     STORIES = 'S'
-    BINURAL_BEATS = 'BB'
+    BINAURAL_BEATS = 'BB'
     INDIAN_RAGAS = 'IR'
     MEDITATION_MUSIC = 'MM'
     SHORT_GUIDED_MEDITATION = 'SGM'
