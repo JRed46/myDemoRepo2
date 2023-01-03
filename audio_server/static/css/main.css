@@ -665,9 +665,9 @@ svg.add:hover{
   position:relative;
   background-color:#2F528F;
   border-radius: 20px;
-  animation: fadeIn 1.5s;
+  /* animation: fadeIn 1.5s;
   animation-delay: 2s;
-  opacity: 0;
+  opacity: 0; */
   animation-fill-mode: forwards;
 }
 

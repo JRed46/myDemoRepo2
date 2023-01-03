@@ -138,7 +138,7 @@ def chatbot_render(request):
     Returns:
         HttpResponseRedirect: the rendered chatbot template
     '''
-    return render(request, "home/chatbot.html", {"activeTab":"chatbot"})
+    return render(request, "chatbot.html", {"activeTab":"chatbot"})
 
 
 ################
