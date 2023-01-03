@@ -25,7 +25,7 @@
               </svg>
             </a>
             {% if adminUser %}
-              <a onclick="deleteFile('/delete_file/{{obj.id}}')">
+              <a onclick="deleteFile('/delete_file/{{category}}/{{obj.id}}')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-trash delete"
                   viewBox="0 0 16 16">
                   <path

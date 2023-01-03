@@ -4,14 +4,15 @@ from .models import audio_object, playlist
 # Register your models here.
 class audioObjectsAdmin(admin.ModelAdmin):
     '''
-    Show all files
+    Shows all audio files in the admin interface
     '''
     list_display = ( 'title', 'category', 'file', 'approved')
+
 
 # Register your models here.
 class playlistAdmin(admin.ModelAdmin):
     '''
-    Show all files
+    Show all playlists in the admin interface
     '''
     list_display = ( 'name', 'owner')
 
