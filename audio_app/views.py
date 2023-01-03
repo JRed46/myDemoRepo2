@@ -5,19 +5,19 @@ from .forms import audio_object_form, playlist_form, add_to_playlist_form
 from .models import audio_object, audioCategories, playlist, PlaylistMapping
 
 
-categoryToAbreviation = {'nature-sounds':'NS', 'binural-beats':'BB', 
+categoryToAbreviation = {'nature-sounds':'NS', 'binaural-beats':'BB', 
                         'breathing-excercises':'BE', 'stories':'S', 
                         'guided-mediations':'GM', 'indian-ragas':'IR',
                         'mediation-music':'MM', 'short-guided-mediations':'SGM', 
                         'vocal-chanting':'VC'}
 
-abreviationToCategory = {'NS':'nature-sounds', 'BB':'binural-beats', 
+abreviationToCategory = {'NS':'nature-sounds', 'BB':'binaural-beats', 
                         'BE':'breathing-excercises', 'S':'stories', 
                         'GM':'guided-mediations', 'IR':'indian-ragas',
                         'MM':'mediation-music', 'SGM':'short-guided-mediations', 
                         'VC':'vocal-chanting'}
 
-categoryToTitle = {'nature-sounds':'Nature Sounds', 'binural-beats':'Binural Beats', 
+categoryToTitle = {'nature-sounds':'Nature Sounds', 'binaural-beats':'Binaural Beats', 
                 'breathing-excercises':'Breathing Excercises', 'stories':'Stories', 
                 'guided-mediations':'Guided Meditations', 'indian-ragas':'Indian Ragas',
                 'mediation-music':'Meditation Music', 'short-guided-mediations':'Short Guided Meditations', 
