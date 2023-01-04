@@ -112,6 +112,7 @@ audio_app
     |
     └───js                      #  Add to template with `src="{% static 'js/{yourScript}.js' %}"`
         |   styleActiveTab.js   #  Add CSS class "active" with id = value of "activeTab" in template variables
+        |   audioPlayer.js      #  Makes the audio player work
 
 ```
 Note that in this structure, we have authentication views and forms in th django configuration folder, and leave the other views to the audio_app. In general this folder should not be expanded on further beyond these general items, and further functionality should be in the audio_app or a new app. 

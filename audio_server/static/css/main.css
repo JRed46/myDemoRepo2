@@ -613,14 +613,27 @@ form input[type="email"]:focus {
   padding: 5px 0px 5px 0px;
 }
 
+.playlistItemContainer .actions{
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+}
+
 .playlistItemContainer.active{
   background-color: rgba(255, 255, 255, 0.7);
   box-shadow: 0 0 3px 0px black ;
   color: #7F4B35 !important;
 }
 
+svg.delete,
+svg.add{
+  width: 27px !important;
+  height: 27px !important;
+  margin-top: 5px;
+}
+
 svg.delete{
-  color:red
+  color:red;
 }
 
 svg.delete:hover{
@@ -628,7 +641,7 @@ svg.delete:hover{
 }
 
 svg.add{
-  color:rgb(12, 184, 12)
+  color:rgb(12, 184, 12);
 }
 
 svg.add:hover{
