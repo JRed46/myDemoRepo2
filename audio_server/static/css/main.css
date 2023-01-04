@@ -341,7 +341,7 @@ form input[type="email"]:focus {
 
 .cell {
   flex: 0 0 30%;
-  height: 220px;
+  height: 240px;
   margin-bottom: 20px;
   background-color: rgba(203, 205, 206, 0.9);
   border-radius: 20px;
@@ -363,7 +363,7 @@ form input[type="email"]:focus {
   text-align: center;
   vertical-align: middle;
   line-height: 45px;
-  font-size: 25px;
+  font-size: 30px;
 }
 
 .cellText{
@@ -499,7 +499,7 @@ form input[type="email"]:focus {
 
 .playerContainer{
   width: fit-content;
-  width:95%;
+  width:99%;
   max-width: 800px;
   background-color: rgba(203, 205, 206, 0.7);
   border-radius: 20px;
@@ -611,9 +611,9 @@ form input[type="email"]:focus {
 }
 
 .playlistItemContainer .info{
-  padding-top: 4px;
-  padding-bottom: 6px;
-  font-size: 20px;
+  padding-top: 2px;
+  padding-bottom: 5px;
+  font-size: 22px;
   pointer-events: none;
   width: 80%;
 }
@@ -636,8 +636,8 @@ form input[type="email"]:focus {
 
 svg.delete,
 svg.add{
-  width: 27px !important;
-  height: 27px !important;
+  width: 30px !important;
+  height: 30px !important;
   margin-top: 5px;
 }
 
@@ -685,7 +685,7 @@ svg.add:hover{
   width:fit-content;
   color:RGB(191, 185, 161);
   animation: fadeIn 3s;
-  font-size: 60px;
+  font-size: 70px;
   -webkit-text-stroke: 0.5px black;
   text-shadow: 1px 1px 1px black;
 }
@@ -697,7 +697,7 @@ svg.add:hover{
   color: white;
   font-size: 24px;
   align-items: center;
-  animation: fadeIn 3s;
+  animation: fadeIn 1s;
   animation-delay: 1s;
   opacity: 0;
   animation-fill-mode: forwards;
