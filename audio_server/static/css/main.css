@@ -8,10 +8,11 @@ body {
   margin: 0;
   height: 100vh;
   box-sizing: border-box;
-  background: url(../img/background-tree.jpeg) center;
+  background: url(../img/background-tree.jpeg) center 0px;
   background-size: cover;
   background-repeat: no-repeat;
   background-color: #1F2D47 !important;
+  background-attachment: fixed;
 }
 
 ::-webkit-scrollbar {
@@ -55,7 +56,7 @@ a:hover {
   white-space: nowrap;
   display: flex;
   height:50px;
-  background: url(../img/background-tree.jpeg) 70px -130px;
+  background: url(../img/background-tree.jpeg) 70px 0px;
   background-size: cover;
   border-bottom: 1px solid black;
   box-shadow: 0 0 5px 0 black;
@@ -76,6 +77,7 @@ a:hover {
   font-size: 35px !important;
   line-height: 35px;
   margin-left: 10px;
+  text-decoration: none !important;
 }
 
 .topnav .logoAndTitleContainer img{
@@ -132,7 +134,7 @@ a:hover {
 }
 
 .topnav nav .link{
-  font-size: 28px;
+  font-size: 30px;
   line-height: 47px;
   color: #c5c2c2 !important;
   text-decoration: none;
@@ -339,11 +341,12 @@ form input[type="email"]:focus {
 
 .cell {
   flex: 0 0 30%;
-  height: 200px;
+  height: 220px;
   margin-bottom: 20px;
   background-color: rgba(203, 205, 206, 0.9);
   border-radius: 20px;
   text-decoration: none !important;
+  text-align: center;
 }
 
 .cell:hover{
@@ -365,7 +368,7 @@ form input[type="email"]:focus {
 
 .cellText{
   margin: 10px 10px 0px 10px;
-  font-size: 18px;
+  font-size: 20px;
   color:black
 }
 
@@ -531,6 +534,8 @@ form input[type="email"]:focus {
 .currTrackInfo .title{
   width: 100%;
   text-align: center;
+  font-size: 26px;
+  margin-top: -9px;
 }
 
 .controlButtonContainer .control{
@@ -582,6 +587,7 @@ form input[type="email"]:focus {
 .playlistItemContainer{
   display: flex;
   box-shadow: 0 0 3px 0px black;
+  background-color: rgba(203, 205, 206, 0.8);
   color:black;
   border-radius: 5px;
   margin: 3px 10px 5px 10px;
@@ -597,16 +603,19 @@ form input[type="email"]:focus {
   margin:10px;
 }
 
-.playlistItemContainer .info{
-  width: 80%;
-}
-
-.playlistItemContainer .info, 
 .playlistItemContainer .duration{
   padding-top: 7px;
   padding-bottom: 7px;
   font-size: 16px;
   pointer-events: none;
+}
+
+.playlistItemContainer .info{
+  padding-top: 4px;
+  padding-bottom: 6px;
+  font-size: 20px;
+  pointer-events: none;
+  width: 80%;
 }
 
 .playlistItemContainer .play{
@@ -676,7 +685,7 @@ svg.add:hover{
   width:fit-content;
   color:RGB(191, 185, 161);
   animation: fadeIn 3s;
-  font-size: 50px;
+  font-size: 60px;
   -webkit-text-stroke: 0.5px black;
   text-shadow: 1px 1px 1px black;
 }
@@ -702,6 +711,8 @@ svg.add:hover{
   display: flex;
   flex-direction: column;
   align-items: left !important;
+  height: calc(50vh - 50px);
+  justify-content: space-around;
 }
 
 .linksContainer.delay2{
@@ -709,12 +720,13 @@ svg.add:hover{
   opacity: 0;
   animation-fill-mode: forwards;
   animation-delay: 1s;
+
 }
 
 .linksContainer a{
   font-size: 24px;
   text-decoration: none !important;
-  margin: 0 10px auto 10px !important;
+  margin: 0 10px 0 10px !important;
   color:#c5c2c2 !important;
 }
 
@@ -755,9 +767,6 @@ svg.add:hover{
   position:relative;
   background-color:#2F528F;
   border-radius: 20px;
-  /* animation: fadeIn 1.5s;
-  animation-delay: 2s;
-  opacity: 0; */
   animation-fill-mode: forwards;
 }
 
