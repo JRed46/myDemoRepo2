@@ -44,9 +44,10 @@ class add_to_playlist_form(forms.ModelForm):
         sourcePlaylist (playlist) : foreign key of the playlist object to add the file to.
     '''
     def __init__(self, user, *args, **kwargs):
+        super(add_to_playlist_form, self).__init__(*args, **kwargs) 
         self.user = user
-        self.sourcePlaylist =  forms.ModelChoiceField(queryset=playlist.objects.filter(owner=user)) 
-        super(add_to_playlist_form, self).__init__(*args, **kwargs)       
+        self.sourcePlaylist =  forms.ModelChoiceField(queryset=playlist.objects.filter(owner=user))       
+        self.fields['sourcePlaylist'] = self.sourcePlaylist
 
     @staticmethod
     def label_from_instance(obj):

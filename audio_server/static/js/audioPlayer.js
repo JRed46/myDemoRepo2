@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let playListItems = document.querySelectorAll(".playlistItemContainer");
     for (let i = 0; i < playListItems.length; i++){
         playListItems[i].addEventListener("click", handleItemClick);
-        playListItems[i].children[2].innerHTML = formatMinutes(playListItems[i].children[2].innerHTML);
+        playListItems[i].children[3].innerHTML = formatMinutes(playListItems[i].children[3].innerHTML);
     }
 
     /* MAKE PROGRESS BAR ABLE TO SELECT TIME IN TRACK */
