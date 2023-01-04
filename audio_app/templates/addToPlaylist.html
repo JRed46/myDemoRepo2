@@ -9,7 +9,7 @@
 {% block content %}
 <section class='registration'>
   <div class="container formContainer">
-    <h2>Add to Playlist</h2>
+    <h2>Add {{filename}} to Playlist</h2>
     <form method="post" class="form-group" enctype="multipart/form-data">
       {% csrf_token %}
       {{form|crispy}}

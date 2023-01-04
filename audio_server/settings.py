@@ -67,7 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'audio_app.views.get_playlists' # specific for wellness server, can be deleted in future applications
+                'audio_app.utils.get_playlists' # specific for wellness server, can be deleted in future applications. Makes user playlist list available everywhere.
             ],
         },
     },
