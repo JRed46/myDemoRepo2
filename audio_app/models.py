@@ -32,6 +32,7 @@ class audio_object(models.Model):
     title = models.CharField(max_length=500)
     category = models.CharField(max_length=500, choices=audioCategories.choices, default=audioCategories.MEDITATION_MUSIC)
     file = models.FileField(upload_to='audio_files')
+    duration = models.IntegerField(default=0)
     approved=models.BooleanField(default=False)
 
 

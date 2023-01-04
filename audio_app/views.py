@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import audio_object_form, playlist_form, add_to_playlist_form
 from .models import audio_object, playlist, PlaylistMapping
 from .utils import *
+import mutagen
 
 
 
@@ -170,12 +171,12 @@ def file_upload(request):
     if request.method == "POST":
         form = audio_object_form(request.POST, request.FILES)
         if form.is_valid():
+            file = form.save(commit=False)
+            audio_info = mutagen.File(file.file).info
+            file.duration = audio_info.length
             if is_admin(request.user):
-                file = form.save(commit=False)
                 file.approved = True
-                file.save()
-            else:
-                form.save()
+            file.save()
             return HttpResponseRedirect('/upload/')
     else:
         form = audio_object_form()
