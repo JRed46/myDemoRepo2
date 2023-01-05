@@ -233,10 +233,13 @@ def listenPlaylist(request, playlistId):
         HttpResponseRedirect: back to the source category of the file
     '''
     userPlaylist = playlist.objects.get(id = playlistId)
-    audio_objects = userPlaylist.audios.all()
-    kwargs = {"activeTab":"listen", 'audio_objects':audio_objects, 'category_title':userPlaylist.name,
-              'listType':'playlist', 'playlistId':userPlaylist.id}
-    return render(request, "listen_files.html", kwargs)
+    if userPlaylist.owner == request.user:
+        audio_objects = userPlaylist.audios.all()
+        kwargs = {"activeTab":"listen", 'audio_objects':audio_objects, 'category_title':userPlaylist.name,
+                'listType':'playlist', 'playlistId':userPlaylist.id}
+        return render(request, "listen_files.html", kwargs)
+    else:
+        return HttpResponseRedirect('/') # view someone else's playlist send them to home page
 
 
 @login_required(login_url=reverse_lazy('login'))
@@ -341,8 +344,8 @@ def removeFromPlaylist(request, playlistId, fileId):
     if userPlaylist.owner == request.user:
         file_object = audio_object.objects.get(id=fileId)
         toDel = PlaylistMapping.objects.filter(sourcePlaylist=userPlaylist, file=file_object)
-        for to in toDel:
-            to.delete()
+        if len(toDel) > 0: # could have multiple file instances, delete one
+            toDel[0].delete()
     return HttpResponseRedirect('/listen/playlist/{}'.format(userPlaylist.id))
 
 
