@@ -148,7 +148,7 @@ def listen_category(request, category):
     audio_objects = audio_object.objects.filter(category = categoryToAbreviation.get(category), approved=True)
     adminUser = is_admin(request.user) # display additional icon to delete file if user is admin
     kwargs = {"activeTab":"listen", 'audio_objects':audio_objects, 'category_title':categoryToTitle.get(category),
-              'listType':'category', 'adminUser':adminUser, 'category':category}
+              'listType':'category', 'adminUser':adminUser, 'category':category, 'prevTrackHashKey':category} # use prevTrackHashKey to save the track index on front end
     return render(request, "listen_files.html", kwargs)
 
  
@@ -240,7 +240,7 @@ def listenPlaylist(request, playlistId):
     if userPlaylist.owner == request.user:
         audio_objects = userPlaylist.audios.all()
         kwargs = {"activeTab":"listen", 'audio_objects':audio_objects, 'category_title':userPlaylist.name,
-                'listType':'playlist', 'playlistId':userPlaylist.id}
+                'listType':'playlist', 'playlistId':userPlaylist.id, 'prevTrackHashKey':userPlaylist.id} # use prevTrackHashKey to save the track index on front end
         return render(request, "listen_files.html", kwargs)
     else:
         return HttpResponseRedirect('/') # view someone else's playlist send them to home page
