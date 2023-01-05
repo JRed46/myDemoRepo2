@@ -313,9 +313,10 @@ def addToPlaylist(request, fileId, fileName):
         try:
             newPlaylistFile = form.save(commit=False)
             if newPlaylistFile.sourcePlaylist.owner == request.user:
-                newPlaylistFile.file = audio_object.objects.get(id=fileId)
+                audio_object_toAdd = audio_object.objects.get(id=fileId)
+                newPlaylistFile.file = audio_object_toAdd
                 newPlaylistFile.save()
-                return HttpResponseRedirect('/listen/playlist/{}'.format(newPlaylistFile.sourcePlaylist.id))
+                return HttpResponseRedirect('/listen/{}'.format(abreviationToCategory.get(audio_object_toAdd.category)))
             else:
                 pass
         except:
