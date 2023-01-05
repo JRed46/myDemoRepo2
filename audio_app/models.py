@@ -55,7 +55,7 @@ class playlist(models.Model):
     automatically from this definition.
     '''
     name = models.CharField(max_length=30)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False) 
+    owner = models.ForeignKey(User, on_delete=models.CASCADE) 
     audios = models.ManyToManyField(audio_object, through = 'PlaylistMapping', related_name = 'audio_files', blank = True)
 
     def __str__(self):

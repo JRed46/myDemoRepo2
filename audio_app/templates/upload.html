@@ -10,6 +10,23 @@
 <section class='registration'>
   <div class="container formContainer">
     <h2>Upload a File</h2>
+    {% if adminUser %}
+      {% if wasPreviousSubmission == 'No' %}
+        <div class="extraInfo">Hello Admin user- the uploaded file will be directly added to library.</div>
+      {% elif wasPreviousSubmission == 'Fail' %}
+        <div class="extraInfo fail">Creation failure- please submit a valid audio file.</div>
+      {% else %}
+        <div class="extraInfo success">Creation success- file has been added to library.</div>
+      {% endif %}
+    {% else %}
+      {% if wasPreviousSubmission == 'No' %}
+        <div class="extraInfo">We approve submissions before they are added to the library. Please allow us time to ensure a mindful experience for all users.</div>
+      {% elif wasPreviousSubmission == 'Fail' %}
+        <div class="extraInfo fail">Creation failure- please submit a valid audio file.</div>
+      {% else %}
+        <div class="extraInfo success">Creation success- we will review your submission and add it to the library soon. Thank you.</div>
+      {% endif %}
+    {% endif %}
     <form method="post" class="form-group" enctype="multipart/form-data">
       {% csrf_token %}
       {{form|crispy}}

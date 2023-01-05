@@ -5,8 +5,13 @@ var activeAudio;
 /* DO WHEN CONTENT IS LOADED */
 window.addEventListener('DOMContentLoaded', (event) => {
     var currTrackTimer = document.getElementById('currTrackTimer');
+    let playListItems = document.querySelectorAll(".playlistItemContainer");
 
     /* ACTIVATE FIRST TRACK */
+    var prevPos = localStorage.getItem(prevTrackHashKey) || 0;
+    if (prevPos < playListItems.length && playListItems.length > 0){
+        activeIndex = prevPos;
+    }
     document.getElementById('playlistItemContainer-' + activeIndex).classList.add("active");
     document.getElementById('activeAudioSource').src = document.getElementById('file-url-' + activeIndex).innerHTML;
     document.getElementById('currTrackTitle').innerHTML = document.getElementById('file-title-' + activeIndex).innerHTML;
@@ -17,7 +22,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     /* MAKE THE PLAYLIST ITEMS CLICKABLE AND FORMAT DURATION*/
-    let playListItems = document.querySelectorAll(".playlistItemContainer");
     for (let i = 0; i < playListItems.length; i++){
         playListItems[i].addEventListener("click", handleItemClick);
         playListItems[i].children[3].innerHTML = formatMinutes(playListItems[i].children[3].innerHTML);
@@ -55,6 +59,7 @@ function loadNewAudio(index){
     toggleActiveAudio();
     updateStylePlaylist(activeIndex,index);
     activeIndex = index;
+    localStorage[prevTrackHashKey] = index;
 }
 
 

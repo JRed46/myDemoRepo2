@@ -5,6 +5,9 @@
 {% load static %}
 
 {% block content %}
+<script>
+    var prevTrackHashKey = '{{prevTrackHashKey}}';
+</script>
 <script src="{% static 'js/audioPlayer.js' %}"></script>
 
 <h2 class="tableCaption">{{category_title}}</h2>

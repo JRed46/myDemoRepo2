@@ -301,6 +301,23 @@ form input[type="email"]:focus {
   color: rgba(0, 0, 0, 0.488);
   opacity: 1;
 }
+
+.formContainer .extraInfo{
+  width: 450px;
+  color: black;
+  margin-top: -10px; /* always under a title */
+  margin-bottom: 20px; 
+  text-align: center;
+  font-size: 18px;
+}
+
+.formContainer .extraInfo.success{
+  color: rgb(12, 184, 12)
+}
+
+.formContainer .extraInfo.fail{
+  color: red;
+}
 /* ----------------------------------------------------- */
 
 

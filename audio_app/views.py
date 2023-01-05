@@ -148,7 +148,7 @@ def listen_category(request, category):
     audio_objects = audio_object.objects.filter(category = categoryToAbreviation.get(category), approved=True)
     adminUser = is_admin(request.user) # display additional icon to delete file if user is admin
     kwargs = {"activeTab":"listen", 'audio_objects':audio_objects, 'category_title':categoryToTitle.get(category),
-              'listType':'category', 'adminUser':adminUser, 'category':category}
+              'listType':'category', 'adminUser':adminUser, 'category':category, 'prevTrackHashKey':category} # use prevTrackHashKey to save the track index on front end
     return render(request, "listen_files.html", kwargs)
 
  
@@ -168,19 +168,23 @@ def file_upload(request):
     Returns:
         HttpResponseRedirect: back to the upload url to fix errors or submit another file
     '''
+    adminUser = is_admin(request.user)
+    wasPreviousSubmission = 'No'
     if request.method == "POST":
-        form = audio_object_form(request.POST, request.FILES)
-        if form.is_valid():
+        try:
+            form = audio_object_form(request.POST, request.FILES)
             file = form.save(commit=False)
-            audio_info = mutagen.File(file.file).info
+            audio_info = mutagen.File(file.file).info # throws exception if file is not of audio type
             file.duration = audio_info.length
             if is_admin(request.user):
                 file.approved = True
             file.save()
-            return HttpResponseRedirect('/upload/')
+            wasPreviousSubmission = 'Success'
+        except:
+            wasPreviousSubmission = 'Fail'
     else:
         form = audio_object_form()
-    return render(request, "upload.html", {"activeTab":"upload", 'form':form})
+    return render(request, "upload.html", {"activeTab":"upload", 'form':form, 'adminUser':adminUser, 'wasPreviousSubmission':wasPreviousSubmission})
 
 
 @login_required(login_url=reverse_lazy('login'))
@@ -233,10 +237,13 @@ def listenPlaylist(request, playlistId):
         HttpResponseRedirect: back to the source category of the file
     '''
     userPlaylist = playlist.objects.get(id = playlistId)
-    audio_objects = userPlaylist.audios.all()
-    kwargs = {"activeTab":"listen", 'audio_objects':audio_objects, 'category_title':userPlaylist.name,
-              'listType':'playlist', 'playlistId':userPlaylist.id}
-    return render(request, "listen_files.html", kwargs)
+    if userPlaylist.owner == request.user:
+        audio_objects = userPlaylist.audios.all()
+        kwargs = {"activeTab":"listen", 'audio_objects':audio_objects, 'category_title':userPlaylist.name,
+                'listType':'playlist', 'playlistId':userPlaylist.id, 'prevTrackHashKey':userPlaylist.id} # use prevTrackHashKey to save the track index on front end
+        return render(request, "listen_files.html", kwargs)
+    else:
+        return HttpResponseRedirect('/') # view someone else's playlist send them to home page
 
 
 @login_required(login_url=reverse_lazy('login'))
@@ -310,9 +317,10 @@ def addToPlaylist(request, fileId, fileName):
         try:
             newPlaylistFile = form.save(commit=False)
             if newPlaylistFile.sourcePlaylist.owner == request.user:
-                newPlaylistFile.file = audio_object.objects.get(id=fileId)
+                audio_object_toAdd = audio_object.objects.get(id=fileId)
+                newPlaylistFile.file = audio_object_toAdd
                 newPlaylistFile.save()
-                return HttpResponseRedirect('/listen/playlist/{}'.format(newPlaylistFile.sourcePlaylist.id))
+                return HttpResponseRedirect('/listen/{}'.format(abreviationToCategory.get(audio_object_toAdd.category))) # send back to category
             else:
                 pass
         except:
@@ -341,8 +349,8 @@ def removeFromPlaylist(request, playlistId, fileId):
     if userPlaylist.owner == request.user:
         file_object = audio_object.objects.get(id=fileId)
         toDel = PlaylistMapping.objects.filter(sourcePlaylist=userPlaylist, file=file_object)
-        for to in toDel:
-            to.delete()
+        if len(toDel) > 0: # could have multiple file instances, delete one
+            toDel[0].delete()
     return HttpResponseRedirect('/listen/playlist/{}'.format(userPlaylist.id))
 
 
