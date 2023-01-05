@@ -6,6 +6,7 @@ from audio_app.forms import audio_object_form
 from django.core.files.uploadedfile import SimpleUploadedFile
 from audio_app.utils import abreviationToCategory, categoryToAbreviation
 from django.contrib.auth.models import Group
+from audio_app.utils import is_admin
 
 
 ##############################
@@ -120,34 +121,65 @@ class authenticated_uploadFileView(TestCase):
     def test_upload_single_file_NOT_ADMIN(self):
         with open('testing/gimme_disco.mp3', 'rb') as fp:
             response = self.client.post(reverse_lazy('upload'), {'title': 'file title', 'file': fp, 'category':'BB'})
-            self.assertEqual(response.status_code, 302)
+            self.assertEqual(response.status_code, 200)
             audio_objects = audio_object.objects.all()
             self.assertEqual(audio_objects.count(), 1) #upload worked
             self.assertFalse(audio_objects[0].approved) #file should not be approved yet since it wasn't submitted by an admin
-
+            self.assertTrue('Creation success- we will review your submission and add it to the library soon. Thank you.' in str(response.content)) # displays success message
+            
     def test_upload_single_file_IS_ADMIN(self):
         with open('testing/gimme_disco.mp3', 'rb') as fp:
             adminGroup, _ = Group.objects.get_or_create(name='Admin')
             adminGroup.user_set.add(self.user)
             response = self.client.post(reverse_lazy('upload'), {'title': 'file title', 'file': fp, 'category':'BB'})
-            self.assertEqual(response.status_code, 302)
+            self.assertEqual(response.status_code, 200)
             audio_objects = audio_object.objects.all()
             self.assertEqual(audio_objects.count(), 1) #upload worked
             self.assertTrue(audio_objects[0].approved) #file should approved since it was submitted by an admin
+            self.assertTrue('Creation success- file has been added to library.' in str(response.content)) # displays success message
 
-    def test_upload_bad_category(self):
+    def test_upload_bad_category_NOT_ADMIN(self):
         with open('testing/gimme_disco.mp3', 'rb') as fp:
             response = self.client.post(reverse_lazy('upload'), {'title': 'file title', 'file': fp, 'category':'bad_cat_neofiwhfouhwfuckadka'})
             self.assertEqual(response.status_code, 200)
             audio_objects = audio_object.objects.all()
             self.assertEqual(audio_objects.count(), 0) #upload worked
+            self.assertTrue('Creation failure- please submit a valid audio file.' in str(response.content)) # displays success message
+
+    def test_upload_bad_category_IS_ADMIN(self):
+        with open('testing/gimme_disco.mp3', 'rb') as fp:
+            adminGroup, _ = Group.objects.get_or_create(name='Admin')
+            adminGroup.user_set.add(self.user)
+            response = self.client.post(reverse_lazy('upload'), {'title': 'file title', 'file': fp, 'category':'bad_cat_neofiwhfouhwfuckadka'})
+            self.assertEqual(response.status_code, 200)
+            audio_objects = audio_object.objects.all()
+            self.assertEqual(audio_objects.count(), 0) #upload worked
+            self.assertTrue('Creation failure- please submit a valid audio file.' in str(response.content)) # displays success message
+
+    def test_upload_bad_file_NOT_ADMIN(self):
+        with open('testing/test_views_general_listen.py', 'rb') as fp: # try submitting a python file
+            response = self.client.post(reverse_lazy('upload'), {'title': 'file title', 'file': fp, 'category':'BB'})
+            self.assertEqual(response.status_code, 200)
+            audio_objects = audio_object.objects.all()
+            self.assertEqual(audio_objects.count(), 0) #upload worked
+            self.assertTrue('Creation failure- please submit a valid audio file.' in str(response.content)) # displays success message
+
+    def test_upload_bad_file_IS_ADMIN(self):
+        with open('testing/test_views_general_listen.py', 'rb') as fp: # try submitting a python file
+            adminGroup, _ = Group.objects.get_or_create(name='Admin')
+            adminGroup.user_set.add(self.user)
+            response = self.client.post(reverse_lazy('upload'), {'title': 'file title', 'file': fp, 'category':'BB'})
+            self.assertEqual(response.status_code, 200)
+            audio_objects = audio_object.objects.all()
+            self.assertEqual(audio_objects.count(), 0) #upload worked
+            self.assertTrue('Creation failure- please submit a valid audio file.' in str(response.content)) # displays success message
 
     def test_upload_all_categories(self):
         categories = abreviationToCategory.keys()
         for cat in categories:
             with open('testing/gimme_disco.mp3', 'rb') as fp:
                 response = self.client.post(reverse_lazy('upload'), {'title': 'file title', 'file': fp, 'category':cat})
-                self.assertEqual(response.status_code, 302)
+                self.assertEqual(response.status_code, 200)
         audio_objects = audio_object.objects.all()
         self.assertEqual(audio_objects.count(), len(categories)) # all uploads successful
         for cat in categories:

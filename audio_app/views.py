@@ -168,19 +168,23 @@ def file_upload(request):
     Returns:
         HttpResponseRedirect: back to the upload url to fix errors or submit another file
     '''
+    adminUser = is_admin(request.user)
+    wasPreviousSubmission = 'No'
     if request.method == "POST":
-        form = audio_object_form(request.POST, request.FILES)
-        if form.is_valid():
+        try:
+            form = audio_object_form(request.POST, request.FILES)
             file = form.save(commit=False)
-            audio_info = mutagen.File(file.file).info
+            audio_info = mutagen.File(file.file).info # throws exception if file is not of audio type
             file.duration = audio_info.length
             if is_admin(request.user):
                 file.approved = True
             file.save()
-            return HttpResponseRedirect('/upload/')
+            wasPreviousSubmission = 'Success'
+        except:
+            wasPreviousSubmission = 'Fail'
     else:
         form = audio_object_form()
-    return render(request, "upload.html", {"activeTab":"upload", 'form':form})
+    return render(request, "upload.html", {"activeTab":"upload", 'form':form, 'adminUser':adminUser, 'wasPreviousSubmission':wasPreviousSubmission})
 
 
 @login_required(login_url=reverse_lazy('login'))
@@ -316,7 +320,7 @@ def addToPlaylist(request, fileId, fileName):
                 audio_object_toAdd = audio_object.objects.get(id=fileId)
                 newPlaylistFile.file = audio_object_toAdd
                 newPlaylistFile.save()
-                return HttpResponseRedirect('/listen/{}'.format(abreviationToCategory.get(audio_object_toAdd.category)))
+                return HttpResponseRedirect('/listen/{}'.format(abreviationToCategory.get(audio_object_toAdd.category))) # send back to category
             else:
                 pass
         except:
