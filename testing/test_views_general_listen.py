@@ -106,17 +106,37 @@ class authenticated_uploadFileView(TestCase):
         response = self.client.get('/')
         self.assertTrue(response.context['user'].is_authenticated)
 
-    def test_upload_url_loads(self):
+    def test_upload_url_loads_NOT_ADMIN(self):
         response = self.client.get("/upload/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, template_name='upload.html')
         self.assertTemplateUsed(response, template_name='base.html') # all pages should extend from base.html
+        self.assertTrue('We approve submissions before they are added to the library. Please allow us time to ensure a mindful experience for all users.' in str(response.content)) # displays success message
 
-    def test_upload_name_loads(self):
+    def test_upload_url_loads_IS_ADMIN(self):
+        adminGroup, _ = Group.objects.get_or_create(name='Admin')
+        adminGroup.user_set.add(self.user)
+        response = self.client.get("/upload/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, template_name='upload.html')
+        self.assertTemplateUsed(response, template_name='base.html') # all pages should extend from base.html
+        self.assertTrue('Hello Admin user- the uploaded file will be directly added to library.' in str(response.content)) # displays success message
+
+    def test_upload_name_loads_NOT_ADMIN(self):
         response = self.client.get(reverse_lazy('upload'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, template_name='upload.html')
         self.assertTemplateUsed(response, template_name='base.html') # all pages should extend from base.html
+        self.assertTrue('We approve submissions before they are added to the library. Please allow us time to ensure a mindful experience for all users.' in str(response.content)) # displays success message
+
+    def test_upload_name_loads_IS_ADMIN(self):
+        adminGroup, _ = Group.objects.get_or_create(name='Admin')
+        adminGroup.user_set.add(self.user)
+        response = self.client.get(reverse_lazy('upload'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, template_name='upload.html')
+        self.assertTemplateUsed(response, template_name='base.html') # all pages should extend from base.html
+        self.assertTrue('Hello Admin user- the uploaded file will be directly added to library.' in str(response.content)) # displays success message
 
     def test_upload_single_file_NOT_ADMIN(self):
         with open('testing/gimme_disco.mp3', 'rb') as fp:
