@@ -8,9 +8,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let playListItems = document.querySelectorAll(".playlistItemContainer");
 
     /* ACTIVATE FIRST TRACK */
-    var prevPos = localStorage.getItem(prevTrackHashKey) || 0;
+    var prevPos = localStorage.getItem(prevTrackHashKey + '_index') || 0; // store index
+    var prevTime = localStorage.getItem(prevTrackHashKey + '_time') || 0; // store time
     if (prevPos < playListItems.length && playListItems.length > 0){
         activeIndex = prevPos;
+        playListItems[activeIndex].scrollIntoView();
+    }else{
+        prevTime = 0
     }
     document.getElementById('playlistItemContainer-' + activeIndex).classList.add("active");
     document.getElementById('activeAudioSource').src = document.getElementById('file-url-' + activeIndex).innerHTML;
@@ -20,6 +24,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     activeAudio.onloadedmetadata = function() {
             document.getElementById('currTrackDuration').innerHTML = formatMinutes(activeAudio.duration);
     }
+    activeAudio.currentTime = prevTime;
 
     /* MAKE THE PLAYLIST ITEMS CLICKABLE AND FORMAT DURATION*/
     for (let i = 0; i < playListItems.length; i++){
@@ -28,6 +33,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     /* MAKE PROGRESS BAR ABLE TO SELECT TIME IN TRACK */
+    /* NGINX SERVES FILES DIFFERENTLY THAN THE LOCAL DEV MODE, THERE ARE ISSUES WITH THIS IN LOCAL DEV BUT IN WORKS OVER NGINX */
     var progressbar = document.getElementById('progressBar');
     progressbar.addEventListener("click", function(event){
         var percent = event.offsetX / progressbar.offsetWidth;
@@ -59,7 +65,7 @@ function loadNewAudio(index){
     toggleActiveAudio();
     updateStylePlaylist(activeIndex,index);
     activeIndex = index;
-    localStorage[prevTrackHashKey] = index;
+    localStorage[prevTrackHashKey + '_index'] = index;
 }
 
 
@@ -82,6 +88,7 @@ function toggleActiveAudio() {
 /* UPDATE TIME, PROGRESS BAR, CHECK IF ENDED */
 function timeUpdateHandler() {
     var t = activeAudio.currentTime;
+    localStorage[prevTrackHashKey + '_time'] = t;
     currTrackTimer.innerHTML = formatMinutes(t);
     var progress = (activeAudio.currentTime/activeAudio.duration)*100;
     document.getElementById("currentProgress").style.width = progress + "%";
