@@ -146,9 +146,8 @@ def listen_category(request, category):
         HttpResponseRedirect: the rendered instructions template
     '''
     audio_objects = audio_object.objects.filter(category = categoryToAbreviation.get(category), approved=True)
-    adminUser = is_admin(request.user) # display additional icon to delete file if user is admin
     kwargs = {"activeTab":"listen", 'audio_objects':audio_objects, 'category_title':categoryToTitle.get(category),
-              'listType':'category', 'adminUser':adminUser, 'category':category, 'prevTrackHashKey':category} # use prevTrackHashKey to save the track index on front end
+              'listType':'category', 'category':category, 'prevTrackHashKey':category} # use prevTrackHashKey to save the track index on front end
     return render(request, "listen_files.html", kwargs)
 
  
@@ -168,7 +167,6 @@ def file_upload(request):
     Returns:
         HttpResponseRedirect: back to the upload url to fix errors or submit another file
     '''
-    adminUser = is_admin(request.user)
     wasPreviousSubmission = 'No'
     if request.method == "POST":
         try:
@@ -184,7 +182,7 @@ def file_upload(request):
             wasPreviousSubmission = 'Fail'
     else:
         form = audio_object_form()
-    return render(request, "upload.html", {"activeTab":"upload", 'form':form, 'adminUser':adminUser, 'wasPreviousSubmission':wasPreviousSubmission})
+    return render(request, "upload.html", {"activeTab":"upload", 'form':form, 'wasPreviousSubmission':wasPreviousSubmission})
 
 
 @login_required(login_url=reverse_lazy('login'))

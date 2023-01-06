@@ -22,12 +22,12 @@
     var activeTabId = '{{activeTab}}';
   </script>
   <script src="{% static 'js/styleActiveTab.js' %}"></script> {% comment %} Style Current Tab {% endcomment %}
-
+  <script src="{% static 'js/topnav.js' %}"></script> {% comment %} Hide ThoughtLine.org if run out of room in topnav, keep logo {% endcomment %}
 
 
   {% comment %} Nav bar {% endcomment %}
-  <div class="topnav">      
-    <a class="logoAndTitleContainer" href="/"><img src="{% static 'img/logoWhite.png' %}"><h1 class="webname">ThoughtLine.org</h1></a>
+  <div id='topnav' class="topnav">      
+    <a id="logoAndTitleContainer" class="logoAndTitleContainer" href="/"><img src="{% static 'img/logoWhite.png' %}"><h1 id="webname" class="webname">ThoughtLine.org</h1></a>
     <nav>
       <div class="dropdown">
         <a id="listen" class="link">Listen <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
@@ -44,6 +44,9 @@
       </div>
       <a id="upload" class="link" href="{% url 'upload' %}">Create</a>
       <a id="chatbot" class="link"  href="{% url 'chatbot' %}">Thoughts</a>
+      {% if adminUser %}
+        <a id="admin" class="link">Admin</a>
+      {% endif %}
     </nav>
     {% if user.is_authenticated %}
       <a id="auth" class="authentication" href="/logout">

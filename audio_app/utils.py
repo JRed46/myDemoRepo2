@@ -32,6 +32,28 @@ def get_playlists(request):
     return {'userPlaylists': []}
 
 
+def get_adminUser(request):
+    '''
+    Makes the variable adminUser available in all templates.
+    Very similar to get_playlists but for whether the user 
+    is an admin.    
+
+    Parmeters:
+        request (http): http GET request
+
+    Returns:
+        Dict : mapping strings of template variable names to a python object.
+                These objects become available to all templates.
+    
+    '''
+    # Get user playlists of the user is authenticated
+    if request.user.is_authenticated:
+        return {'adminUser': is_admin(request.user)} 
+    # Return an empty list if they are not authenticated
+    return {'adminUser': False}
+
+
+
 def is_admin(user):
     '''
     Checks if a user has admin privledges.
