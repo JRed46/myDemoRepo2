@@ -36,8 +36,11 @@ urlpatterns = [
     path("addToPlaylist/<int:fileId>/<str:fileName>", addToPlaylist, name="addToPlaylist"),
     path("removeFromPlaylist/<int:playlistId>/<int:fileId>", removeFromPlaylist, name="removeFromPlaylist"),
 
-    # Django admin interface
-    path("admin/", admin.site.urls),
+    # Admin 
+    path("admin/manageSubmissions/", manageSubmissions, name='manageSubmissions'),
+    path("admin/approveSubmission/<int:fileId>", approveSubmission, name='approveSubmission'),
+    path("admin/denySubmission/<int:fileId>", denySubmission, name='denySubmission'),
+    path("admin/superuser/", admin.site.urls), # include django admin interface for superusers
 ]
 
 

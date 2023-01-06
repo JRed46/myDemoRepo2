@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Listen {% endblock title %}
+{% block title %} Manage Submissions {% endblock title %}
 
 {% load static %}
 
@@ -57,60 +57,30 @@
     </div>
 
     <div id="playlistContainer" class="playlistContainer">
-        {% for obj in audio_objects %}
+        {% for obj, verboseName in audio_objects %}
             <div class="playlistItemContainer" id="playlistItemContainer-{{ forloop.counter0 }}" data-index="{{ forloop.counter0 }}">
                 <div class="play" id="pbp-{{ forloop.counter0 }}"><i class="fas fa-play" height="40" width="40" id="playlistItemIcon-{{ forloop.counter0 }}" aria-hidden="true"></i></div>
                 <div id="file-title-{{ forloop.counter0 }}" class="info">{{obj.title}}</div>
                 <div class="actions">
-                    {% if listType == 'category' %}
-                        <a href="/addToPlaylist/{{obj.id}}/{{obj.title}}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle add" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    <a href="/admin/approveSubmission/{{obj.id}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check-lg add" viewBox="0 0 16 16">
+                            <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
                         </svg>
-                        </a>
-                        {% if adminUser %}
-                            <a onclick="deleteFile('/delete_file/{{category}}/{{obj.id}}')">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-trash delete"
-                                viewBox="0 0 16 16">
-                                <path
-                                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                                <path fill-rule="evenodd"
-                                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                                </svg>
-                            </a>
-                            <style>
-                                svg.add{
-                                    margin-right: 25px;
-                                }
-                            </style>
-                        {% endif %}
-                    {% else %}
-                        <a onclick="removeFromPlaylist('/removeFromPlaylist/{{playlistId}}/{{obj.id}}')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-trash delete"
-                            viewBox="0 0 16 16">
-                            <path
-                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                            <path fill-rule="evenodd"
-                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                        </svg>
-                        </a>
-                    {% endif %}
+                    </a>
+                    <a href="/admin/denySubmission/{{obj.id}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x delete" viewBox="0 0 16 16">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                          </svg>
+                    </a>
                 </div>
                 <div class="duration">{{obj.duration}}</div>
+                <div class="verboseCategoryName">{{verboseName}}</div>
                 <div id="file-url-{{ forloop.counter0 }}" style="display: none;">{{ obj.file.url }}</div>
             </div>
         {% endfor %}
     </div>
 </div>
 
-
-
-{% if listType == 'playlist' %}
-  <div class="managePlaylist">
-    <a onclick="deletePlaylist(event)" class="deletePlaylist">Delete Playlist</a>
-  </div>
-{% endif %}
 
 
 <script>
@@ -143,24 +113,18 @@
         overflow: hidden;
     }
 
-    .managePlaylist{
-        position: absolute;
-        bottom: 5px;
-        left:5px;
-        z-index: 99999999999;
-        display: flex;
+    .playerContainer{
+        width:95% !important;
+        max-width:95% !important;
     }
 
-    .deletePlaylist{
-        background-color: red;
-        color:white !important;
-        width: fit-content;
-        padding: 5px;
-        border-radius: 5px;
+    svg.add{
+        margin-right: 25px;
     }
 
-    .deletePlaylist:hover{
-        box-shadow: 0 0 5px 0 red;
+    svg.edit{
+        margin-right: 25px;
+        margin-top: 5px;
     }
 </style>
 {% endblock content %}

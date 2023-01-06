@@ -113,6 +113,7 @@ audio_app
     └───js                      #  Add to template with `src="{% static 'js/{yourScript}.js' %}"`
         |   styleActiveTab.js   #  Add CSS class "active" with id = value of "activeTab" in template variables
         |   audioPlayer.js      #  Makes the audio player work
+        |   topnav.js           #  Hides the title in topnav (leaving logo) for narrow screens
 
 ```
 Note that in this structure, we have authentication views and forms in th django configuration folder, and leave the other views to the audio_app. In general this folder should not be expanded on further beyond these general items, and further functionality should be in the audio_app or a new app. 
@@ -361,6 +362,7 @@ The development server only runs a lightweight wsgi server. This runs our view f
         ```console
         docker-compose exec web python manage.py test
         ```
+- Specific tests can be run by adding testing.{{test file name, no .py extention}} after test in the command
 - Please maintain the testing standard and add in new test cases for new functionality before merging with master
 
 
@@ -382,13 +384,20 @@ Once the site is running in your respective mode, management is fairly easy. As 
     docker-compose exec web python manage.py {{command}}
     ```
 
+## Admin interfaces
+- We have made the template variable "adminUser" available in all templates, a bool of whether the user is an admin
+- In this project superusers and admins are considered different. 
+- The default django admin interface is available at the url /admin/superuser/ for superusers
+- We have customer admin interfaces at the /admin/{{other}} urls for admin users.
+
 ## User Management (ALL MODES)
 - We have 3 user tiers on the site, superuser, admin, regular. Superusers are responsible for managing who admin users are and can access the admin interface, admins can submit, approve, delete content and view analytics, members get a normal experience. 
 - superuser
     - There should only be one (maybe 2) active superuser at a time, whoever is managing server updates. Superusers effectively have as much power as someone with the server password. After you get the site running in your mode, run `python manage.py createsuperuser`. Answer the questions and a superuser account will be created. You can now access the admin interface at http(s)://thoughtline.org(localhost(/admin)
 - admin
-    - A user is an admin if they are a member of a django group called "Admin". As a supe user, go to the admin interface, click "Groups" on the left under the "AUTHENTICATION AND AUTHORIZATION" section in the left bar. If you see a group called "Admin", move on to the next line. Otherwise, click "ADD GROUP" on the top right, name it "Admin", do not add any permissions, and save the entry.
+    - A user is an admin if they are a member of a django group called "Admin". As a superuser, go to the admin interface, click "Groups" on the left under the "AUTHENTICATION AND AUTHORIZATION" section in the left bar. If you see a group called "Admin", move on to the next line. Otherwise, click "ADD GROUP" on the top right, name it "Admin", do not add any permissions, and save the entry.
     - Once the "Admin" group exists, to add a user to the group click "Users" on the left under the "AUTHENTICATION AND AUTHORIZATION" section in the left bar. Click the user you'd like to add, scroll down to Groups, double click "Admin" so it moves to "Chosen groups", then click "SAVE". The user is now an admin.
+- Superuser does not imply admin! If you make a superuser account you probably also want it to be an admin
 
 
 ## Database Management (ALL MODES)

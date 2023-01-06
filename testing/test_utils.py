@@ -5,6 +5,7 @@ from audio_app.utils import *
 from audio_app.forms import playlist_form
 from django.contrib.auth.models import Group
 
+
 class isAdminUtil(TestCase):
     def setUp(self):
         '''
@@ -71,3 +72,44 @@ class getPlaylistsUtil(TestCase):
         self.assertEqual(type(res), dict)
         self.assertTrue('userPlaylists' in res)
         self.assertQuerysetEqual(res['userPlaylists'], [self.playlist1]) # works for user with playlist
+
+
+class get_adminUserUtil(TestCase):
+    def setUp(self):
+        '''
+        test the get_playlists util
+        '''
+        self.factory = RequestFactory()
+        self.username = 'testuser'
+        self.password = 'securepassword230923!'
+        self.credentials = {
+            'username': self.username,
+            'password': self.password
+        }
+        self.user = User.objects.create_user(**self.credentials)
+
+    def test_unauthenticated_correct(self):
+        request = self.factory.get('/') # request type shouldnt matter, just if they are authenticated/admin
+        request.user = AnonymousUser()
+        res = get_adminUser(request)
+        self.assertEqual(type(res), dict)
+        self.assertTrue('adminUser' in res)
+        self.assertEqual(res['adminUser'], False)
+
+    def test_authenticated_correct_NOT_ADMIN(self):
+        request = self.factory.get('/') # request type shouldnt matter, just if they are authenticated/admin
+        request.user = self.user
+        res = get_adminUser(request)
+        self.assertEqual(type(res), dict)
+        self.assertTrue('adminUser' in res)
+        self.assertEqual(res['adminUser'], False)
+
+    def test_authenticated_correct_IS_ADMIN(self):
+        adminGroup, _ = Group.objects.get_or_create(name='Admin')
+        adminGroup.user_set.add(self.user)
+        request = self.factory.get('/') # request type shouldnt matter, just if they are authenticated/admin
+        request.user = self.user
+        res = get_adminUser(request)
+        self.assertEqual(type(res), dict)
+        self.assertTrue('adminUser' in res)
+        self.assertEqual(res['adminUser'], True)
