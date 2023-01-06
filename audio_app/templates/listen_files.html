@@ -124,14 +124,16 @@
   function deleteFile(url){
     let doIt = window.confirm('Are you sure you want to delete this file? This cannot be undone. It will remove the file from the library and all user playlists.');
     if (doIt){
-      window.location.href=url;
+        localStorage[prevTrackHashKey + '_time'] = 0; // reset cached time if deleting a track
+        window.location.href=url;
     }
   }
 
   function removeFromPlaylist(url){
     let doIt = window.confirm('Are you sure you want to remove this file from your playlist?');
     if (doIt){
-      window.location.href=url;
+        localStorage[prevTrackHashKey + '_time'] = 0; // reset cached time if deleting a track
+        window.location.href=url;
     }
   }
 </script>

@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     /* ACTIVATE FIRST TRACK */
     var prevPos = localStorage.getItem(prevTrackHashKey + '_index') || 0; // store index
     var prevTime = localStorage.getItem(prevTrackHashKey + '_time') || 0; // store time
-    if (prevPos < playListItems.length && playListItems.length > 0){
+    if (prevPos < playListItems.length && playListItems.length > 0){ // make sure track wasn't deleted and now out of range
         activeIndex = prevPos;
         playListItems[activeIndex].scrollIntoView();
     }else{
@@ -136,6 +136,8 @@ function previousFile(){
         activeIndex--;
         updateStylePlaylist(oldIndex,activeIndex);
         loadNewAudio(activeIndex);
+    }else{
+        activeAudio.currentTime = 0; // restart track if first
     }
 }
 
