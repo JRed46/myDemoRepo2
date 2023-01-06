@@ -645,6 +645,14 @@ form input[type="email"]:focus {
   width: fit-content;
 }
 
+.playlistItemContainer .verboseCategoryName{
+  width:220px;
+  font-size: 16px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  text-align: center;
+}
+
 .playlistItemContainer.active{
   background-color: rgba(255, 255, 255, 0.7);
   box-shadow: 0 0 3px 0px black ;
@@ -672,6 +680,14 @@ svg.add{
 
 svg.add:hover{
   filter: drop-shadow(0px 0px 1px rgb(12, 184, 12));
+}
+
+svg.edit{
+  color:yellow;
+}
+
+svg.edit:hover{
+  filter: drop-shadow(0px 0px 1px yellow);
 }
 /* ----------------------------------------------------- */
 

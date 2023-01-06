@@ -5,6 +5,7 @@ from audio_app.utils import *
 from audio_app.forms import playlist_form
 from django.contrib.auth.models import Group
 
+
 class isAdminUtil(TestCase):
     def setUp(self):
         '''

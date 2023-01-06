@@ -354,8 +354,83 @@ def removeFromPlaylist(request, playlistId, fileId):
 
 
 
+###############
+# ADMIN VIEWS #
+###############
+
+@login_required(login_url=reverse_lazy('login'))
+def manageSubmissions(request):
+    '''
+    Rendering function to show all the unapproved file submissions. Only available to admin 
+    users, checks the user has admin status. Gives the mp3 interface allowing them
+    to listen to the submissions, and provides buttons to add/deny the submission. 
+
+    Parameters:
+        request (http): http GET request
+        fileId (int) : pk of the file in the audio_object database table
+
+    
+    Returns:
+        HttpResponseRedirect: the view of all the unapproved files
+
+    '''
+    if is_admin(request.user):
+        audio_objects = audio_object.objects.filter(approved=False)
+        audio_objects = [ [obj, categoryToTitle.get(abreviationToCategory.get(obj.category))] for obj in audio_objects] # need to compute category name from abbreviation
+        kwargs = {"activeTab":"admin", 'audio_objects':audio_objects, 'category_title':'Unapproved Submissions', 'abreviationToCategory':abreviationToCategory, 
+        'prevTrackHashKey':'unapproved'} # use prevTrackHashKey to save the track index on front end
+        return render(request, "manage_submissions.html", kwargs)
+    else:
+        return HttpResponseRedirect('/') # send the curious user back to home page
+
+
+@login_required(login_url=reverse_lazy('login'))
+def approveSubmission(request, fileId):
+    '''
+    Handler function to approve a submission to the library. Checks the file 
+    exists and the user is in the admin group, and if so approves the file adding
+    it to the library.
+
+    Parameters:
+        request (http): http GET request
+        fileId (int) : pk of the file in the audio_object database table
+
+    
+    Returns:
+        HttpResponseRedirect: back to the manage submissions page
+    '''
+    if is_admin(request.user):
+        file_to_approve = audio_object.objects.get(id = fileId)
+        if file_to_approve:
+            file_to_approve.approved = True
+            file_to_approve.save()
+    return HttpResponseRedirect(reverse_lazy('manageSubmissions'))
+
+
+@login_required(login_url=reverse_lazy('login'))
+def denySubmission(request, fileId):
+    '''
+    Handler function to deny a subission to the library. Checks the file 
+    exists and the user is in the admin group, and if so deletes the file
+    from the library.
+
+    Parameters:
+        request (http): http GET request
+        fileId (int) : pk of the file in the audio_object database table
+
+    
+    Returns:
+        HttpResponseRedirect: back to the manage submissions page
+    '''
+    if is_admin(request.user):
+        file_to_delete = audio_object.objects.get(id = fileId)
+        if file_to_delete:
+            file_to_delete.delete()
+    return HttpResponseRedirect(reverse_lazy('manageSubmissions'))
+
+
 ###########
-# CHATBOT #
+# CHATBOT #     # Should probably be a new app when this is non trivial
 ###########    
 
 
