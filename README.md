@@ -157,7 +157,7 @@ This application can run in 3 modes: (1) local front end devlopment (2) dev dock
 ### Step 1, Clone Repo, Prepare To Setup
 - Check you have [python](https://www.python.org/downloads/) and [pip](https://packaging.python.org/en/latest/tutorials/installing-packages/) installed on your system. Using VSCode is recommended. 
 ```console
-git clone https://bitbucket.org/fletcher2014/wellness_server_v3/src/master/
+git clone https://michaelcantow@bitbucket.org/fletcher2014/wellness_server_starting_foundation.git
 ```
 
 ### Step 2, Create and activate virtual environment 
