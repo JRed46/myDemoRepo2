@@ -33,7 +33,7 @@ wellness_server_v3
 │   docker-compose.yml          # Container architecture for production
 │   Dockerfile                  # Container structure for Django component of the application
 │   entrypoint.sh               # Startup instructions for Docker build
-│   init-letsencrypt.sh         # Initialize production certificates
+│   init-certbot.sh             # Initialize production certificates
 │   manage.py                   # Manage the Django application (database, superusers, collectstatic, runserver, ...)
 │   README.md                   # You are here.
 │   requirements.txt            # Application Dependencies
@@ -157,7 +157,7 @@ This application can run in 3 modes: (1) local front end devlopment (2) dev dock
 ### Step 1, Clone Repo, Prepare To Setup
 - Check you have [python](https://www.python.org/downloads/) and [pip](https://packaging.python.org/en/latest/tutorials/installing-packages/) installed on your system. Using VSCode is recommended. 
 ```console
-git clone https://michaelcantow@bitbucket.org/fletcher2014/wellness_server_starting_foundation.git
+git clone https://bitbucket.org/fletcher2014/wellness_server_starting_foundation/src/master/
 ```
 
 ### Step 2, Create and activate virtual environment 
@@ -168,23 +168,23 @@ git clone https://michaelcantow@bitbucket.org/fletcher2014/wellness_server_start
         pip install virtualenv
         ```
         ```console
-        python -m venv wellness_venv
+        python -m venv venv
         ```
     - Mac:
         ```console
         pip3 install virtualenv
         ```
         ```console
-        python3 -m venv wellness_venv
+        python3 -m venv venv
         ```
 - Activate the Virtual Environment
     - Windows:
         ```console
-        wellness_venv\scripts\activate
+        venv\scripts\activate
         ```
     - Mac:
         ```console
-        source wellness_venv/bin/activate
+        source venv/bin/activate
         ```
         
 
@@ -250,10 +250,10 @@ This is done most easily by [downloading docker desktop](https://www.docker.com/
 
 ### Step 4, run application with logs
 ```console
-docker-compose -f docker-compose.dev.yml build
+docker compose -f docker-compose.dev.yml build
 ```
 ```console
-docker-compose -f docker-compose.dev.yml up
+docker compose -f docker-compose.dev.yml up
 ```
 
 The server is now running at http://127.0.0.1. Note server logs are being printed which is useful for debugging. Print statements from the view functions are printed here in addition to the request logs. Also note the server is running on http://127.0.0.1 and not http://127.0.0.1:8000 like the front end development server. While the wsgi server is running on port 8000, it is not exposed to the web, rather only internally to other docker services. Now, nginx is listending on port 80, the default http port, which is the new gateway to the application.
@@ -261,11 +261,11 @@ The server is now running at http://127.0.0.1. Note server logs are being printe
 ### Step 5, executing server maintenence commands
 To execute manual server commands, we need to run the application without printing server logs. Do this with
 ```console
-docker-compose -f docker-compose.dev.yml up -d --build
+docker compose -f docker-compose.dev.yml up -d --build
 ```
 The build will not automatically run database migrations. Do this with:
 ```console
-docker-compose -f docker-compose.dev.yml exec web python manage.py migrate --noinput
+docker compose -f docker-compose.dev.yml exec web python manage.py migrate --noinput
 ```
 In general, we can user "docker-compose -f docker-compose.dev.yml exec web python manage.py {command}" to run commands in the containers, where "web" is the name of the wsgi server we specified in docker-compose.yml,
 and we specify we are using the dev version docker-compose file
@@ -273,7 +273,7 @@ and we specify we are using the dev version docker-compose file
 ### Troubleshooting
 When setting up the docker server for the first time, there are some common issues that can happen; this readme will be updated with solutions to these problems as we encounter them
 
-1. If (`docker-compose`) is out of date, you can update it easily using `pip`.
+1. Note that recently, (`docker-compose`) has been replaced by (`docker compose`). The functionalities are similar, and the instructions for this repo only change with the replacement of the old command prefix with the new command prefix. There was a widely used script, 'init-letsenrypt.sh' which stopped working with the new (`docker compose`). We created a replacement script, 'init-certbot.sh', which is for the new docker compose. If you are using the old version, you should use the old version of this script.
 2. The newer method of using `compose` is through docker itself, but this requires the installation of a new plugin, unless you have Docker Desktop, which ships with the `docker compose` command ready to go. Instead of using `pip`, this plug-in adds `docker compose` as a valid command. To install it, use `sudo apt-get- install docker-compose-plugin` on Ubuntu, and the equivalent command on other Linux distros. For MacOS, this plug-in can be installed with [homebrew](https://brew.sh/), with the command `brew install docker-compose`. Note that there might be another step required for MacOS, as detailed [here](https://github.com/docker/compose/issues/8630#issuecomment-1169537632) There is no `docker-compose-plugin` on Windows.See [here](https://github.com/docker/compose/issues/8630#issuecomment-1141930536) for the github issue relating to this.
 3. Another issue that is easy to run into is nginx (or possibly another component) saying the port is blocked. While you can run `docker-compose up -p PORT_NUMBER` to run on a different port, it is advisable to figure out what is blocking the original port, since that may cause problems in the future. If you are running Ubuntu, the most [common](https://stackoverflow.com/questions/14972792/nginx-nginx-emerg-bind-to-80-failed-98-address-already-in-use) problem is Apache listening on that port by default. If you are not using or don't need apache to be running on that port, you can kill the process with `sudo /etc/init.d/apache2 stop` on Ubuntu and `sudo apachectl stop` on other Linux Distros. Please be careful with sudo commands, and always run them at your own peril (the command itself is innocuous, but it is always important to keep that advice in mind). If that does not work, you may need to look up "how to see what is binding port 80 on Windows/Mac/Linux", find the process, and kill it (if it is not important). Sadly, the number of methods to this are too many to enumerate, but it should be a straightforward process.
 
@@ -297,15 +297,15 @@ The production docker-compose file is just docker-compose.yml, not docker-compos
 
 Build and spin up in silent mode
 ```console
-docker-compose up -d --build
+docker compose up -d --build
 ```
 The build will not automatically run database migrations. Do this with:
 ```console
-docker-compose exec web python manage.py migrate --noinput
+docker compose exec web python manage.py migrate --noinput
 ```
 In general, run django manage commands with 
 ```console
-docker-compose exec web python manage.py {{command}}
+docker compose exec web python manage.py {{command}}
 ```
 
 
@@ -356,11 +356,11 @@ The development server only runs a lightweight wsgi server. This runs our view f
 - Test cases can also run within the docker build. Spin up containers in silent mode, then run
     - Local Dev
         ```console
-        docker-compose -f docker-compose.dev.yml exec web python manage.py test
+        docker compose -f docker-compose.dev.yml exec web python manage.py test
         ```
     - Prod
         ```console
-        docker-compose exec web python manage.py test
+        docker compose exec web python manage.py test
         ```
 - Specific tests can be run by adding testing.{{test file name, no .py extention}} after test in the command
 - Please maintain the testing standard and add in new test cases for new functionality before merging with master
@@ -377,11 +377,11 @@ Once the site is running in your respective mode, management is fairly easy. As 
     ```
 - Local Dev
     ```console
-    docker-compose -f docker-compose.dev.yml exec web python manage.py {{command}}
+    docker compose -f docker-compose.dev.yml exec web python manage.py {{command}}
     ```
 - Prod
     ```console
-    docker-compose exec web python manage.py {{command}}
+    docker compose exec web python manage.py {{command}}
     ```
 
 ## Admin interfaces
@@ -412,7 +412,7 @@ Once the site is running in your respective mode, management is fairly easy. As 
 - Run `git pull` to get the new version of the codebase. **This pulls the master branch, make sure you merged the change you are trying to add to the server**. 
 - Then spin up the containers with 
     ```console
-    docker-compose up -d --build
+    docker compose up -d --build
     ```
 - Make sure you run migrations if a model has been modified. Static collection is handled automatically. 
 
