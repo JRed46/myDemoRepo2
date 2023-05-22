@@ -1,5 +1,10 @@
-# Audio Server Docker
-This repository is version 3 of the mental wellness server application. Its primary objective is to serve relaxing audio files that help improve mental states. This is a Django application that can be dockerized and deployed in production with nginx, gunicorn, and postgres. There are also intructions to run Django's development server for front end work, and the docker build can be run in local development mode.
+# DockMed Server
+
+This repository is for a dockerized server infrastructure originally constructed for version 3 of the mental wellness server application, ThoughtLine.org. The primary objective of the application is to serve relaxing audio files that aid in improving mental states. It is a Django application that can be dockerized and deployed in production using nginx, gunicorn, and postgres. Additionally, the repository provides instructions for running Django's development server for frontend work, and the docker build can be executed in local development mode.
+
+While the server was initially designed and named for ThoughtLine, with other health-related applications in mind, it offers flexibility to run various Django MVT applications, API endpoints, and any other synchronous Python applications. It is important to note that if you intend to use Django channels, additional configuration steps are required, such as running a Daphne ASGI server, setting up asynchronous workers, and implementing a cache system like Redis.
+
+This repository includes some of the ThoughtLine application code from its early stages, which can assist developers in getting started on their own applications. However, in many cases, developers may choose to remove the ThoughtLine components and begin with the Django components from scratch. If you wish to deploy with DockMed, it is recommended to start from the provided template and utilize the included settings.py file. To get started with your own application, please refer to this demo video [INSERT LINK] which walks through how to build and deploy a simple website with DockMed.
 
 ## Table of Contents
 1. [Repo Overview](#overview)
