@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="POST" action="{% url 'task_create' %}">
+    {% csrf_token %}
+    <label  for="task-name">Title:</label>
+    <input type="text" name="title">
+    <label for="task-desc">Description:</label>
+    <textarea name="description"></textarea>
+    <button type="submit">Create Task</button>
+</form>
+{% endblock content %}

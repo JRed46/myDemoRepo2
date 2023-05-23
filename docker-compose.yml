@@ -3,7 +3,7 @@ version: '3.8'
 services:
   web:
     build: .
-    command: gunicorn audio_server.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn demoProjectServer.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for task in tasks %}
+<div class="task">
+    <h3>{{task.title}}</h3>
+    <p>{{task.description}}</p>
+    {% if task.completed %}
+    <p>Completed</p>
+    {% else %}
+    <a href="{% url 'task_complete' task.id %}">Complete</a>
+    {% endif %}
+    <a href="{% url 'task_detail' task.id %}">View Details</a>
+    <a href="{% url 'task_delete' task.id %}">Delete</a>
+</div>
+{% endfor %}
+<a href="{% url 'task_create' %}">Create New Task</a>
+{% endblock content %}

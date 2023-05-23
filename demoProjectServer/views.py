@@ -3,6 +3,8 @@ from django.contrib.auth import login, authenticate
 from .forms import register_form, login_form
 
 
+def homePageRender(request):
+    return render(request, 'index.html')
 
 def log_in(request):
     '''
