@@ -9,8 +9,7 @@
 ################################################################################
 domains=(multimodalinsights.com) # <- HERE          #
 ################################################################################
-data_path="./data/certbot"
-nginx_path="./data/nginx"
+data_path="./data/certbot/conf"
 
 if [ -d "$data_path" ]; then
   read -p "Existing data found for $domains. Continue and replace existing certificate? (y/N) " decision
@@ -45,7 +44,6 @@ eval "$certbot_command"
 
 # copy certs into application directory
 cp -Lr /etc/letsencrypt $data_path
-cp -Lr /etc/nginx $nginx_path
 
 # open ports
 sudo fuser -k 443/tcp
