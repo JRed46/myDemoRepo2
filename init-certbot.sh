@@ -9,7 +9,7 @@
 ################################################################################
 domains=(multimodalinsights.com) # <- HERE          #
 ################################################################################
-data_path="./data/certbot/conf"
+data_path="./data/certbot"
 
 if [ -d "$data_path" ]; then
   read -p "Existing data found for $domains. Continue and replace existing certificate? (y/N) " decision
@@ -19,11 +19,12 @@ if [ -d "$data_path" ]; then
 fi
 echo "### Creating certificate for $domains ..."
 
-if [ ! -d "$data_path" ]; then
-  mkdir -p "$data_path"
-  echo "Directory created: $directory"
-else
-  echo "Directory already exists: $directory"
+if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/ssl-dhparams.pem" ]; then
+  echo "### Downloading recommended TLS parameters ..."
+  mkdir -p "$data_path/conf"
+  curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf > "$data_path/conf/options-ssl-nginx.conf"
+  curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem > "$data_path/conf/ssl-dhparams.pem"
+  echo
 fi
 
 # open ports
@@ -50,7 +51,7 @@ done
 eval "$certbot_command"
 
 # copy certs into application directory
-cp -Lr /etc/letsencrypt "./data/certbot/conf"
+cp -Lr /etc/letsencrypt/live $data_path
 
 # open ports
 sudo fuser -k 443/tcp
