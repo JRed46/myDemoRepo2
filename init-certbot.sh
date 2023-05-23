@@ -51,7 +51,7 @@ done
 eval "$certbot_command"
 
 # copy certs into application directory
-cp -Lr /etc/letsencrypt/live $data_path
+cp -Lr /etc/letsencrypt/live $data_path/conf
 
 # open ports
 sudo fuser -k 443/tcp
