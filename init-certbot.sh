@@ -19,6 +19,13 @@ if [ -d "$data_path" ]; then
 fi
 echo "### Creating certificate for $domains ..."
 
+if [ ! -d "$data_path" ]; then
+  mkdir -p "$data_path"
+  echo "Directory created: $directory"
+else
+  echo "Directory already exists: $directory"
+fi
+
 # open ports
 sudo fuser -k 443/tcp
 sudo fuser -k 80/tcp
