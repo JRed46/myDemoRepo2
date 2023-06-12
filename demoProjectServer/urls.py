@@ -7,6 +7,9 @@ from .views import create_account, log_in, homePageRender
 from tasks.views import *
 
 urlpatterns = [
+    # chat urls
+    path("chat/", include("chat.urls")),
+    path("admin/", admin.site.urls),
     # tasks urls
     path('tasks/list/', task_list, name='task_list'),
     path('tasks/create/', task_create, name='task_create'),
